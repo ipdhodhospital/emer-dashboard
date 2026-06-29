@@ -457,13 +457,33 @@ async function clearSheetPending(){
   } catch(e){ console.error('clearSheetPending error',e); }
 }
 
-async function fetchSheetStatus(){
-  try {
-    const res = await fetch(GAS_URL+'?action=status', {method:'GET', mode:'cors'});
-    if(!res.ok) return null;
-    const data = await res.json();
-    return data;
-  } catch(e){ return null; }
+// ================================================================
+// fetchSheetStatus — ใช้ JSONP หลีกเลี่ยง CORS บน GitHub Pages
+// ================================================================
+function fetchSheetStatus(){
+  return new Promise((resolve)=>{
+    const cbName='gasCallback_'+Date.now();
+    const script=document.createElement('script');
+    let done=false;
+
+    const timer=setTimeout(()=>{
+      if(!done){done=true;cleanup();resolve(null);}
+    },10000);
+
+    window[cbName]=function(data){
+      if(!done){done=true;cleanup();resolve(data);}
+    };
+
+    function cleanup(){
+      clearTimeout(timer);
+      try{document.head.removeChild(script);}catch(e){}
+      try{delete window[cbName];}catch(e){}
+    }
+
+    script.src=GAS_URL+'?action=status&callback='+cbName;
+    script.onerror=()=>{if(!done){done=true;cleanup();resolve(null);}};
+    document.head.appendChild(script);
+  });
 }
 
 // ================================================================
