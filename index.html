@@ -484,32 +484,31 @@ async function clearSheetPending(){
 }
 
 // ================================================================
-// fetchSheetStatus — ใช้ JSONP หลีกเลี่ยง CORS บน GitHub Pages
+// fetchSheetStatus — ดึงจาก Google Sheet CSV สาธารณะ (ไม่ติด CORS)
+// Sheet "สถานะสต๊อก" ต้องเป็น Public (Share → Anyone with link → Viewer)
 // ================================================================
-function fetchSheetStatus(){
-  return new Promise((resolve)=>{
-    const cbName='gasCallback_'+Date.now();
-    const script=document.createElement('script');
-    let done=false;
+const STATUS_SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1hO-ziv8bojqCMi5FzuU308QsJOnRvWemhYi8f5ZvrUo/gviz/tq?tqx=out:csv&sheet=สถานะสต๊อก';
 
-    const timer=setTimeout(()=>{
-      if(!done){done=true;cleanup();resolve(null);}
-    },10000);
-
-    window[cbName]=function(data){
-      if(!done){done=true;cleanup();resolve(data);}
-    };
-
-    function cleanup(){
-      clearTimeout(timer);
-      try{document.head.removeChild(script);}catch(e){}
-      try{delete window[cbName];}catch(e){}
-    }
-
-    script.src=GAS_URL+'?action=status&callback='+cbName;
-    script.onerror=()=>{if(!done){done=true;cleanup();resolve(null);}};
-    document.head.appendChild(script);
-  });
+async function fetchSheetStatus(){
+  try {
+    // เพิ่ม timestamp เพื่อป้องกัน cache
+    const url = STATUS_SHEET_CSV + '&t=' + Date.now();
+    const res = await fetch(url, {method:'GET', cache:'no-store'});
+    if(!res.ok) return null;
+    const csv = await res.text();
+    // Parse CSV — แถวที่ 2 (index 1) คือข้อมูล
+    const rows = csv.trim().split('\n');
+    if(rows.length < 2) return {status:'CLEARED', items:[]};
+    // ลบ quote จาก CSV
+    const cols = rows[1].split('","').map(c=>c.replace(/^"|"$/g,'').trim());
+    const statusVal = cols[0] || 'CLEARED';
+    let items = [];
+    try{ items = JSON.parse(cols[1] || '[]'); }catch(e){}
+    return { status: statusVal, items: items, updatedAt: cols[2]||'' };
+  } catch(e){
+    console.error('fetchSheetStatus error:', e);
+    return null;
+  }
 }
 
 // ================================================================
