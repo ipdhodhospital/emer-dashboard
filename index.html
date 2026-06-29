@@ -161,6 +161,18 @@
   .history-info{flex:1;}
   .history-nurse{font-size:13px;font-weight:500;}
   .history-detail{font-size:12px;color:var(--gray-400);}
+  /* RESTOCK HISTORY */
+  .restock-item{padding:12px 20px;border-bottom:1px solid var(--gray-100);display:flex;align-items:flex-start;gap:14px;}
+  .restock-item:last-child{border-bottom:none;}
+  .restock-item:hover{background:var(--gray-50);}
+  .restock-badge{background:var(--green-light);color:var(--green);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;white-space:nowrap;}
+  .restock-info{flex:1;}
+  .restock-date{font-size:13px;font-weight:700;color:var(--green);}
+  .restock-by{font-size:12px;color:var(--gray-400);margin-top:2px;}
+  .restock-items-list{margin-top:8px;display:flex;flex-direction:column;gap:4px;}
+  .restock-drug-row{display:flex;align-items:center;gap:8px;font-size:13px;}
+  .restock-drug-name{flex:1;font-weight:500;}
+  .restock-drug-qty{background:var(--green-light);color:var(--green);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap;}
 
   /* SUCCESS */
   .success-screen{text-align:center;padding:32px 24px;}
@@ -261,6 +273,7 @@
   <div class="page-tabs">
     <button class="page-tab active" onclick="switchTab('tab-equipment',this)">🛠️ อุปกรณ์ทั้งหมด</button>
     <button class="page-tab" onclick="switchTab('tab-history',this)">📜 ประวัติการตรวจ</button>
+    <button class="page-tab" onclick="switchTab('tab-restock',this)">📦 ประวัติการเติม</button>
   </div>
 
   <div class="tab-content active" id="tab-equipment">
@@ -293,6 +306,17 @@
       </div>
       <div id="historyList">
         <div class="empty-state"><div class="empty-icon">📋</div><div>ยังไม่มีการบันทึก</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-restock">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">📦 ประวัติการเติมสต๊อก</div>
+      </div>
+      <div id="restockList">
+        <div class="empty-state"><div class="empty-icon">📦</div><div>ยังไม่มีการเติมสต๊อก</div></div>
       </div>
     </div>
   </div>
@@ -422,11 +446,13 @@ async function sendToSheet(rows) {
 // Storage — localStorage สำหรับ history, stock
 //           Google Sheet สำหรับ PENDING status (sync ทุกเครื่อง)
 // ================================================================
-const LS_HISTORY='emer_history_v3', LS_STOCK='emer_stock_v3';
+const LS_HISTORY='emer_history_v3', LS_STOCK='emer_stock_v3', LS_RESTOCK='emer_restock_v3';
 let pollInterval=null;
 
 function loadHistory(){ try{return JSON.parse(localStorage.getItem(LS_HISTORY)||'[]');}catch(e){return[];} }
 function saveHistory(a){ localStorage.setItem(LS_HISTORY,JSON.stringify(a)); }
+function loadRestockHistory(){ try{return JSON.parse(localStorage.getItem(LS_RESTOCK)||'[]');}catch(e){return[];} }
+function saveRestockHistory(a){ localStorage.setItem(LS_RESTOCK,JSON.stringify(a.slice(0,200))); }
 function saveStock(){ const s={}; EQUIPMENT.forEach(d=>s[d.id]=d.current); localStorage.setItem(LS_STOCK,JSON.stringify(s)); }
 function applyStock(){ try{ const s=JSON.parse(localStorage.getItem(LS_STOCK)||'null'); if(!s) return; EQUIPMENT.forEach(d=>{if(s[d.id]!==undefined) d.current=s[d.id];}); }catch(e){} }
 
@@ -753,6 +779,21 @@ function confirmRestock(){
   });
   sendToSheet(sheetRows);
   saveStock();
+
+  // บันทึกประวัติการเติมลง localStorage
+  if(sheetRows.length>0){
+    const now2=new Date();
+    const restHist=loadRestockHistory();
+    restHist.unshift({
+      date: sheetRows[0].date,
+      time: now2.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
+      items: sheetRows.map(r=>({name:r.itemName, added: parseInt((r.note||'').replace(/\D/g,''))||0, total:r.counted})),
+      timestamp: Date.now()
+    });
+    saveRestockHistory(restHist);
+    renderRestockHistory();
+  }
+
   // อัปเดต Google Sheet เป็น CLEARED → ทุกเครื่องปลดล็อก
   clearSheetPending();
   lastKnownStatus='CLEARED';
@@ -784,6 +825,32 @@ function renderHistory(){
     </div>`).join('');
 }
 
+function renderRestockHistory(){
+  const list=document.getElementById('restockList');
+  const hist=loadRestockHistory();
+  if(!hist.length){
+    list.innerHTML=`<div class="empty-state"><div class="empty-icon">📦</div><div>ยังไม่มีการเติมสต๊อก</div></div>`;
+    return;
+  }
+  list.innerHTML=hist.map(h=>`
+    <div class="restock-item">
+      <div>
+        <div class="restock-date">📦 ${h.date}</div>
+        <div class="restock-by">${h.time||''}</div>
+      </div>
+      <div class="restock-info">
+        <div class="restock-items-list">
+          ${h.items.map(it=>`
+            <div class="restock-drug-row">
+              <span class="restock-drug-name">✅ ${it.name}</span>
+              <span class="restock-drug-qty">+${it.added} ชิ้น → รวม ${it.total}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+      <div><span class="restock-badge">เติมสต๊อก</span></div>
+    </div>`).join('');
+}
+
 function showToast(msg,type=''){
   const c=document.getElementById('toastContainer');
   const t=document.createElement('div');
@@ -797,6 +864,7 @@ function showToast(msg,type=''){
 applyStock();
 renderAll();
 renderHistory();
+renderRestockHistory();
 
 // ดึงสถานะจาก Google Sheet ทันทีเมื่อเปิดหน้า
 (async ()=>{
