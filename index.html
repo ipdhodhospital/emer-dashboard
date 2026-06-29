@@ -100,16 +100,37 @@
   .tab-content.active{display:block;}
 
   /* MISSING ALERT */
-  .missing-alert{border:2px solid var(--red);border-radius:var(--radius);background:var(--red-light);padding:0;overflow:hidden;margin-bottom:20px;}
-  .missing-alert-header{background:var(--red);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;}
-  .missing-alert-body{padding:16px 20px;}
-  .missing-drug-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--white);border-radius:var(--radius-sm);margin-bottom:8px;border:1px solid #f5c6cb;gap:10px;flex-wrap:wrap;}
+  /* FULLSCREEN BLOCKING OVERLAY */
+  .missing-overlay{position:fixed;inset:0;z-index:9999;background:rgba(100,0,0,0.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeInBlock 0.3s ease;}
+  .missing-overlay.hidden{display:none;}
+  @keyframes fadeInBlock{from{opacity:0}to{opacity:1}}
+  .missing-box{background:#fff;border-radius:20px;width:100%;max-width:680px;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 100px rgba(0,0,0,0.6);animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+  @keyframes popIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+  .missing-box-header{background:linear-gradient(135deg,#7F0000,#B71C1C,#E53935);color:#fff;padding:28px 32px 24px;text-align:center;flex-shrink:0;}
+  .missing-box-header .alert-icon{font-size:64px;display:block;margin-bottom:12px;animation:shake 0.5s ease infinite alternate;}
+  @keyframes shake{from{transform:rotate(-10deg) scale(1)}to{transform:rotate(10deg) scale(1.1)}}
+  .missing-box-header h2{font-size:26px;font-weight:800;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3);}
+  .missing-box-header p{font-size:14px;opacity:0.9;font-weight:500;}
+  .missing-box-body{overflow-y:auto;padding:24px 28px;flex:1;}
+  .missing-count-badge{background:#B71C1C;color:#fff;border-radius:50px;padding:8px 20px;font-size:14px;font-weight:700;display:inline-block;margin-bottom:18px;}
+  .missing-drug-item{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#FFF5F5;border-radius:14px;margin-bottom:12px;border:2px solid #FFCDD2;gap:12px;flex-wrap:wrap;}
   .missing-drug-info{flex:1;}
-  .missing-drug-name{font-weight:600;font-size:14px;}
-  .missing-drug-detail{font-size:12px;color:var(--red);margin-top:2px;}
-  .missing-input-row{display:flex;align-items:center;gap:8px;}
-  .missing-input{width:70px;padding:6px 10px;border-radius:6px;border:1.5px solid var(--gray-200);font-size:14px;text-align:center;font-family:'Sarabun',sans-serif;background:var(--white);color:var(--gray-800);}
-  .missing-input:focus{border-color:var(--primary);outline:none;}
+  .missing-drug-name{font-weight:700;font-size:17px;color:#B71C1C;display:flex;align-items:center;gap:8px;}
+  .missing-drug-detail{font-size:13px;color:#C62828;margin-top:5px;font-weight:500;}
+  .missing-input-row{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .missing-input-label{font-size:13px;font-weight:600;color:#555;white-space:nowrap;}
+  .missing-input{width:90px;padding:10px 12px;border-radius:10px;border:2px solid #FFCDD2;font-size:18px;text-align:center;font-family:'Sarabun',sans-serif;background:#fff;color:#B71C1C;font-weight:700;}
+  .missing-input:focus{border-color:#B71C1C;outline:none;box-shadow:0 0 0 3px rgba(183,28,28,0.2);}
+  .missing-box-footer{padding:20px 28px 24px;border-top:2px solid #FFCDD2;background:#FFF5F5;flex-shrink:0;}
+  .btn-confirm-restock{background:linear-gradient(135deg,#1B5E20,#28A745,#2ECC71);color:#fff;border:none;border-radius:14px;padding:18px 40px;font-size:20px;font-weight:800;cursor:pointer;font-family:'Sarabun',sans-serif;box-shadow:0 6px 20px rgba(40,167,69,0.45);transition:transform 0.15s,box-shadow 0.15s;width:100%;letter-spacing:0.5px;}
+  .btn-confirm-restock:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(40,167,69,0.55);}
+  .missing-warn-text{font-size:12px;color:#999;margin-top:12px;text-align:center;}
+  [data-theme="dark"] .missing-box{background:#1a0a0a;}
+  [data-theme="dark"] .missing-drug-item{background:#2D0A0A;border-color:#5C1A1A;}
+  [data-theme="dark"] .missing-drug-name{color:#FF8A80;}
+  [data-theme="dark"] .missing-drug-detail{color:#FF5252;}
+  [data-theme="dark"] .missing-box-footer{background:#2D0A0A;border-color:#5C1A1A;}
+  [data-theme="dark"] .missing-input{background:#1a0a0a;color:#FF8A80;border-color:#5C1A1A;}
 
   /* MODAL */
   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px);}
@@ -190,15 +211,24 @@
 
 <div class="main-wrap">
 
-  <!-- ข้อ 4: Missing Alert คงค้าง -->
-  <div class="missing-alert" id="missingAlert" style="display:none">
-    <div class="missing-alert-header">
-      <span>🚨</span>
-      <span>อุปกรณ์ขาดสต๊อก — รอการยืนยันเติม (แสดงจนกว่าจะกดยืนยัน)</span>
-    </div>
-    <div class="missing-alert-body" id="missingAlertBody"></div>
-    <div style="padding:0 20px 16px;display:flex;gap:10px;justify-content:flex-end">
-      <button class="btn btn-danger" onclick="confirmRestock()">✓ ยืนยันเติมสต๊อกครบแล้ว</button>
+  <!-- FULLSCREEN MISSING OVERLAY — บล็อกทุกการใช้งาน -->
+  <div class="missing-overlay hidden" id="missingOverlay">
+    <div class="missing-box">
+      <div class="missing-box-header">
+        <span class="alert-icon">🚨</span>
+        <h2>อุปกรณ์ขาดสต๊อก!</h2>
+        <p>กรุณาเติมอุปกรณ์ให้ครบ แล้วกดยืนยันเพื่อปลดล็อกระบบ</p>
+      </div>
+      <div class="missing-box-body">
+        <div class="missing-count-badge" id="missingCountBadge">⚠️ พบ 0 รายการที่ขาด</div>
+        <div id="missingAlertBody"></div>
+      </div>
+      <div class="missing-box-footer">
+        <button class="btn-confirm-restock" onclick="confirmRestock()">
+          ✅ ยืนยันเติมสต๊อกครบแล้ว — ปลดล็อกระบบ
+        </button>
+        <div class="missing-warn-text">⚠️ ระบบจะถูกล็อกไว้จนกว่าจะกดยืนยัน — เพื่อป้องกันสต๊อกขาดโดยไม่มีคนเติม</div>
+      </div>
     </div>
   </div>
 
@@ -378,7 +408,7 @@ const EQUIPMENT = [
 // ================================================================
 // Google Sheet URL
 // ================================================================
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxpplCNtZIq9HnjydPPpQn1Oh21K0VASEvOuI0tC4BoDSBQ6WZ7lcDdo7UG5LBiUgtdyw/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzw5tCnVfDmjwPnOGm-LUHrvyeMoXerTHfHfu2maxRiKmq1BtOkn9B8z3C3MViA47CREQ/exec';
 
 async function sendToSheet(rows) {
   if(!rows.length) return;
@@ -389,16 +419,84 @@ async function sendToSheet(rows) {
 }
 
 // ================================================================
-// localStorage — ข้อ 4: persistent missing + history + stock
+// Storage — localStorage สำหรับ history, stock
+//           Google Sheet สำหรับ PENDING status (sync ทุกเครื่อง)
 // ================================================================
-const LS_HISTORY='emer_history_v2', LS_MISSING='emer_missing_v2', LS_STOCK='emer_stock_v2';
+const LS_HISTORY='emer_history_v3', LS_STOCK='emer_stock_v3';
+let pollInterval=null;
 
 function loadHistory(){ try{return JSON.parse(localStorage.getItem(LS_HISTORY)||'[]');}catch(e){return[];} }
 function saveHistory(a){ localStorage.setItem(LS_HISTORY,JSON.stringify(a)); }
-function loadMissingPending(){ try{return JSON.parse(localStorage.getItem(LS_MISSING)||'null');}catch(e){return null;} }
-function saveMissingPending(a){ if(a&&a.length>0) localStorage.setItem(LS_MISSING,JSON.stringify(a)); else localStorage.removeItem(LS_MISSING); }
 function saveStock(){ const s={}; EQUIPMENT.forEach(d=>s[d.id]=d.current); localStorage.setItem(LS_STOCK,JSON.stringify(s)); }
 function applyStock(){ try{ const s=JSON.parse(localStorage.getItem(LS_STOCK)||'null'); if(!s) return; EQUIPMENT.forEach(d=>{if(s[d.id]!==undefined) d.current=s[d.id];}); }catch(e){} }
+
+// ================================================================
+// Google Sheet STATUS API — sync ทุกเครื่อง
+// ================================================================
+async function setSheetPending(missingItems){
+  try {
+    await fetch(GAS_URL,{
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        rows:[{type:'SET_STATUS', status:'PENDING', items:missingItems}]
+      })
+    });
+  } catch(e){ console.error('setSheetPending error',e); }
+}
+
+async function clearSheetPending(){
+  try {
+    await fetch(GAS_URL,{
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        rows:[{type:'SET_STATUS', status:'CLEARED', items:[]}]
+      })
+    });
+  } catch(e){ console.error('clearSheetPending error',e); }
+}
+
+async function fetchSheetStatus(){
+  try {
+    const res = await fetch(GAS_URL+'?action=status', {method:'GET', mode:'cors'});
+    if(!res.ok) return null;
+    const data = await res.json();
+    return data;
+  } catch(e){ return null; }
+}
+
+// ================================================================
+// Polling — ดึงสถานะจาก Sheet ทุก 30 วินาที
+// ================================================================
+let lastKnownStatus = 'CLEARED';
+
+function startPolling(){
+  if(pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(async ()=>{
+    const data = await fetchSheetStatus();
+    if(!data) return;
+    if(data.status==='PENDING' && lastKnownStatus!=='PENDING'){
+      lastKnownStatus='PENDING';
+      // sync stock จาก sheet
+      if(data.items && data.items.length>0){
+        data.items.forEach(item=>{
+          const eq=EQUIPMENT.find(d=>d.id===item.id);
+          if(eq) eq.current=item.current||0;
+        });
+        saveStock();
+        renderAll();
+        showMissingAlert(data.items);
+      }
+    } else if(data.status==='CLEARED' && lastKnownStatus==='PENDING'){
+      lastKnownStatus='CLEARED';
+      document.getElementById('missingOverlay').classList.add('hidden');
+      document.body.style.overflow='';
+      renderAll();
+      showToast('✅ สต๊อกได้รับการเติมครบแล้ว','success');
+    }
+  }, 30000); // 30 วินาที
+}
 
 // ================================================================
 // State
@@ -569,12 +667,16 @@ function saveCheckRecord(){
   renderAll(); renderHistory();
 
   if(missing.length>0){
-    saveMissingPending(missing);
+    // บันทึกสถานะ PENDING ลง Google Sheet → ทุกเครื่องรับรู้
+    setSheetPending(missing);
+    lastKnownStatus='PENDING';
     showMissingAlert(missing);
     closeModal('checkModal');
     showToast(`🚨 พบอุปกรณ์ขาด ${missing.length} รายการ`,'warning');
   } else {
-    saveMissingPending(null);
+    // อัปเดต Sheet เป็น CLEARED
+    clearSheetPending();
+    lastKnownStatus='CLEARED';
     checkStep=3;
     document.getElementById('checkStep2').style.display='none';
     document.getElementById('checkStep3').style.display='';
@@ -592,6 +694,7 @@ function saveCheckRecord(){
 function showMissingAlert(missing){
   const body=document.getElementById('missingAlertBody');
   body.innerHTML='';
+  document.getElementById('missingCountBadge').textContent=`⚠️ พบ ${missing.length} รายการที่ขาด`;
   missing.forEach(d=>{
     const have=d.counted!==undefined?d.counted:d.current;
     const div=document.createElement('div');
@@ -599,16 +702,17 @@ function showMissingAlert(missing){
     div.innerHTML=`
       <div class="missing-drug-info">
         <div class="missing-drug-name">🚨 ${d.name}</div>
-        <div class="missing-drug-detail">มีอยู่ ${have} | ขาด ${d.std-have} | มาตรฐาน ${d.std}</div>
+        <div class="missing-drug-detail">มีอยู่ ${have} ชิ้น | ขาด ${d.std-have} ชิ้น | มาตรฐาน ${d.std} ชิ้น</div>
       </div>
       <div class="missing-input-row">
-        <label style="font-size:12px;color:var(--gray-600)">เติมเพิ่ม:</label>
+        <span class="missing-input-label">เติมเพิ่ม:</span>
         <input type="number" class="missing-input" data-id="${d.id}" min="0" value="${d.std-have}">
       </div>`;
     body.appendChild(div);
   });
-  document.getElementById('missingAlert').style.display='';
-  document.getElementById('missingAlert').scrollIntoView({behavior:'smooth'});
+  // แสดง fullscreen overlay + ล็อก scroll
+  document.getElementById('missingOverlay').classList.remove('hidden');
+  document.body.style.overflow='hidden';
 }
 
 function confirmRestock(){
@@ -629,10 +733,13 @@ function confirmRestock(){
   });
   sendToSheet(sheetRows);
   saveStock();
-  saveMissingPending(null); // ✅ ล้างหลังยืนยันเท่านั้น
-  document.getElementById('missingAlert').style.display='none';
+  // อัปเดต Google Sheet เป็น CLEARED → ทุกเครื่องปลดล็อก
+  clearSheetPending();
+  lastKnownStatus='CLEARED';
+  document.getElementById('missingOverlay').classList.add('hidden');
+  document.body.style.overflow='';
   renderAll();
-  showToast('✅ ยืนยันเติมสต๊อกเรียบร้อย','success');
+  showToast('✅ ยืนยันเติมสต๊อกครบ — ปลดล็อกทุกเครื่องแล้ว','success');
 }
 
 // History
@@ -671,12 +778,26 @@ applyStock();
 renderAll();
 renderHistory();
 
-// ข้อ 4: โหลด missing ค้างทันทีเมื่อเปิดหน้า
-const pendingMissing=loadMissingPending();
-if(pendingMissing&&pendingMissing.length>0){
-  showMissingAlert(pendingMissing);
-  showToast(`🚨 ยังมีอุปกรณ์ขาด ${pendingMissing.length} รายการที่รอเติม`,'warning');
-}
+// ดึงสถานะจาก Google Sheet ทันทีเมื่อเปิดหน้า
+(async ()=>{
+  showToast('⏳ กำลังตรวจสอบสถานะสต๊อก...','');
+  const data = await fetchSheetStatus();
+  if(data && data.status==='PENDING' && data.items && data.items.length>0){
+    lastKnownStatus='PENDING';
+    // sync stock จาก sheet ก่อนแสดง
+    data.items.forEach(item=>{
+      const eq=EQUIPMENT.find(d=>d.id===item.id);
+      if(eq){ eq.current=item.current!==undefined?item.current:0; }
+    });
+    saveStock(); renderAll();
+    showMissingAlert(data.items);
+    showToast(`🚨 มีอุปกรณ์ขาดสต๊อก ${data.items.length} รายการ รอเติม`,'warning');
+  } else {
+    lastKnownStatus='CLEARED';
+  }
+  // เริ่ม polling ทุก 30 วินาที
+  startPolling();
+})();
 </script>
 </body>
 </html>
