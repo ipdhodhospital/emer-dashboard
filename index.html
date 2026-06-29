@@ -267,7 +267,6 @@
     <div class="section-card">
       <div class="section-header">
         <div class="section-title">📜 ประวัติการตรวจสอบ</div>
-        <button class="btn btn-secondary" onclick="clearHistory()" style="font-size:12px;padding:6px 12px">ล้างประวัติ</button>
       </div>
       <div id="historyList">
         <div class="empty-state"><div class="empty-icon">📋</div><div>ยังไม่มีการบันทึก</div><div style="font-size:12px;margin-top:4px">กด "บันทึกการตรวจ" เพื่อเริ่มต้น</div></div>
@@ -435,9 +434,43 @@ async function sendToSheet(rows) {
 }
 
 // ================================================================
-// State
+// State — เก็บใน localStorage ให้คงอยู่ข้ามผู้ใช้/รีเฟรช
 // ================================================================
-let checkHistory=[], currentAddId=null, checkStep=1, isDark=false;
+const LS_HISTORY  = 'emer_history_v1';
+const LS_MISSING  = 'emer_missing_v1';
+const LS_STOCK    = 'emer_stock_v1';
+
+let currentAddId=null, checkStep=1, isDark=false;
+
+// โหลด checkHistory จาก localStorage
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(LS_HISTORY)||'[]'); } catch(e){ return []; }
+}
+function saveHistory(arr) {
+  localStorage.setItem(LS_HISTORY, JSON.stringify(arr));
+}
+
+// โหลด/บันทึก missing items ที่ยังค้างอยู่
+function loadMissingPending() {
+  try { return JSON.parse(localStorage.getItem(LS_MISSING)||'null'); } catch(e){ return null; }
+}
+function saveMissingPending(arr) {
+  if(arr&&arr.length>0) localStorage.setItem(LS_MISSING, JSON.stringify(arr));
+  else localStorage.removeItem(LS_MISSING);
+}
+
+// โหลด/บันทึก stock ปัจจุบัน
+function loadStock() {
+  try { return JSON.parse(localStorage.getItem(LS_STOCK)||'null'); } catch(e){ return null; }
+}
+function saveStock() {
+  const s={}; EQUIPMENT.forEach(d=>s[d.id]=d.current);
+  localStorage.setItem(LS_STOCK, JSON.stringify(s));
+}
+function applyStock() {
+  const s=loadStock(); if(!s) return;
+  EQUIPMENT.forEach(d=>{ if(s[d.id]!==undefined) d.current=s[d.id]; });
+}
 
 // Clock
 function updateClock() { document.getElementById('clock').textContent=new Date().toLocaleTimeString('th-TH'); }
@@ -523,8 +556,9 @@ function openCheckModal() {
   document.getElementById('checkTime').value=now.toTimeString().slice(0,5);
   const h=now.getHours();
   document.getElementById('checkShift').value=h>=8&&h<16?'D':h>=16?'E':'N';
-  if(checkHistory.length>0) {
-    const last=checkHistory[0];
+  const hist=loadHistory();
+  if(hist.length>0) {
+    const last=hist[0];
     document.getElementById('prevCheckInfo').innerHTML=
       `<strong>ครั้งล่าสุด:</strong> ${last.date} ${last.time} | เวร ${last.shift} | โดย ${last.nurse}
        <br><span style="color:var(--green)">✓ ${last.ok} รายการปกติ</span>
@@ -603,15 +637,26 @@ function saveCheckRecord() {
     }
   });
 
+  // บันทึก stock ลง localStorage
+  saveStock();
+
   sendToSheet(sheetRows);
-  checkHistory.unshift({date,time,shift,nurse,ok,missing:missing.length,timestamp:Date.now()});
+
+  // บันทึกประวัติลง localStorage
+  const hist=loadHistory();
+  hist.unshift({date,time,shift,nurse,ok,missing:missing.length,timestamp:Date.now()});
+  saveHistory(hist);
+
   renderAll(); renderHistory();
 
   if(missing.length>0){
+    // ✅ FIX 1: บันทึก missing ค้างไว้ใน localStorage
+    saveMissingPending(missing);
     showMissingAlert(missing);
     closeModal('checkModal');
     showToast(`⚠️ พบอุปกรณ์ขาดสต๊อก ${missing.length} รายการ`,'warning');
   } else {
+    saveMissingPending(null);
     checkStep=3;
     document.getElementById('checkStep2').style.display='none';
     document.getElementById('checkStep3').style.display='';
@@ -623,7 +668,7 @@ function saveCheckRecord() {
   }
 }
 
-// Missing alert
+// ✅ FIX 1: Missing alert — คงค้างจนกว่าจะกดยืนยัน
 function showMissingAlert(missing) {
   const body=document.getElementById('missingAlertBody');
   body.innerHTML='';
@@ -633,11 +678,11 @@ function showMissingAlert(missing) {
     div.innerHTML=`
       <div class="missing-drug-info">
         <div class="missing-drug-name">⚠️ ${d.name}</div>
-        <div class="missing-drug-detail">มีอยู่ ${d.counted} | ขาด ${d.std-d.counted} | มาตรฐาน ${d.std}</div>
+        <div class="missing-drug-detail">มีอยู่ ${d.counted!==undefined?d.counted:d.current} | ขาด ${d.std-(d.counted!==undefined?d.counted:d.current)} | มาตรฐาน ${d.std}</div>
       </div>
       <div class="missing-input-row">
         <label style="font-size:12px;color:var(--gray-600)">เติมเพิ่ม:</label>
-        <input type="number" class="missing-input" data-id="${d.id}" min="0" value="${d.std-d.counted}">
+        <input type="number" class="missing-input" data-id="${d.id}" data-std="${d.std}" data-current="${d.counted!==undefined?d.counted:d.current}" min="0" value="${d.std-(d.counted!==undefined?d.counted:d.current)}">
       </div>`;
     body.appendChild(div);
   });
@@ -661,11 +706,13 @@ function confirmRestock() {
     }
   });
   sendToSheet(sheetRows);
-  renderAll(); dismissMissingAlert();
+  saveStock();
+  // ✅ ล้าง missing pending หลังยืนยันแล้วเท่านั้น
+  saveMissingPending(null);
+  renderAll();
+  document.getElementById('missingAlert').style.display='none';
   showToast('✅ บันทึกการเติมสต๊อกเรียบร้อย','success');
 }
-
-function dismissMissingAlert() { document.getElementById('missingAlert').style.display='none'; }
 
 // Add stock
 function openAddStock(id) {
@@ -692,20 +739,22 @@ function confirmAddStock() {
       shift:'-',nurse:'เพิ่มสต๊อก',itemName:eq.name,category:eq.category,
       standard:eq.std,counted:eq.current,
       status:eq.current>=eq.std?'ปกติ':'ใกล้หมด',note:note||`เพิ่ม ${qty} ชิ้น`}]);
+    saveStock();
     renderAll();
     showToast(`✅ เพิ่มสต๊อก ${eq.name} +${qty}`,'success');
   }
   closeModal('addStockModal');
 }
 
-// History
+// ✅ FIX 2+3: History — ดึงจาก localStorage, ไม่มีปุ่มล้าง
 function renderHistory() {
   const list=document.getElementById('historyList');
-  if(!checkHistory.length){
-    list.innerHTML=`<div class="empty-state"><div class="empty-icon">📋</div><div>ยังไม่มีการบันทึก</div></div>`;
+  const hist=loadHistory();
+  if(!hist.length){
+    list.innerHTML=`<div class="empty-state"><div class="empty-icon">📋</div><div>ยังไม่มีการบันทึก</div><div style="font-size:12px;margin-top:4px">กด "บันทึกการตรวจ" เพื่อเริ่มต้น</div></div>`;
     return;
   }
-  list.innerHTML=checkHistory.map(h=>`
+  list.innerHTML=hist.map(h=>`
     <div class="history-item">
       <div><div style="font-size:13px;font-weight:700;color:var(--primary)">${h.date}</div><div style="font-size:12px;color:var(--gray-400)">${h.time}</div></div>
       <div class="history-info">
@@ -717,12 +766,6 @@ function renderHistory() {
     </div>`).join('');
 }
 
-function clearHistory() {
-  if(!confirm('ต้องการล้างประวัติทั้งหมด?')) return;
-  checkHistory=[]; renderHistory();
-  showToast('ล้างประวัติแล้ว','success');
-}
-
 // Toast
 function showToast(msg,type='') {
   const c=document.getElementById('toastContainer');
@@ -731,8 +774,19 @@ function showToast(msg,type='') {
   setTimeout(()=>t.remove(),3500);
 }
 
-// Init
-renderAll(); renderHistory();
+// ================================================================
+// Init — โหลดข้อมูลจาก localStorage เมื่อเปิดหน้าใหม่
+// ================================================================
+applyStock();   // โหลด stock ที่บันทึกไว้
+renderAll();
+renderHistory();
+
+// ✅ FIX 1: ถ้ามี missing ค้างอยู่ → แสดงทันทีเมื่อเปิดหน้า
+const pendingMissing = loadMissingPending();
+if(pendingMissing && pendingMissing.length > 0) {
+  showMissingAlert(pendingMissing);
+  showToast(`⚠️ ยังมีอุปกรณ์ขาดสต๊อก ${pendingMissing.length} รายการที่รอเติม`,'warning');
+}
 </script>
 </body>
 </html>
