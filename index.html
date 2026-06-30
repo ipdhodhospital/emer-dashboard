@@ -446,18 +446,53 @@ async function setSheetPending(items){
 async function clearSheetPending(){
   try{ await fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({rows:[{type:'SET_STATUS',status:'CLEARED',items:[]}]})}); }catch(e){}
 }
+// Parser CSV แบบรองรับ comma/quote ที่อยู่ภายในฟิลด์ (เช่น JSON string)
+function parseCsvLine(line){
+  const result=[];
+  let cur='', inQuotes=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(inQuotes){
+      if(ch==='"'){
+        if(line[i+1]==='"'){ cur+='"'; i++; } // escaped quote
+        else inQuotes=false;
+      } else cur+=ch;
+    } else {
+      if(ch==='"') inQuotes=true;
+      else if(ch===','){ result.push(cur); cur=''; }
+      else cur+=ch;
+    }
+  }
+  result.push(cur);
+  return result;
+}
+
 async function fetchSheetStatus(){
   try{
     const res = await fetch(STATUS_CSV+'&t='+Date.now(),{method:'GET',cache:'no-store'});
     if(!res.ok) return null;
-    const csv = await res.text();
-    const rows = csv.trim().split('\n');
-    if(rows.length < 2) return {status:'CLEARED',items:[]};
-    const cols = rows[1].split('","').map(c=>c.replace(/^"|"$/g,'').trim());
+    // บังคับ decode เป็น UTF-8 อย่างชัดเจน ป้องกันอักษรไทยเพี้ยน
+    const buffer = await res.arrayBuffer();
+    const csv = new TextDecoder('utf-8').decode(buffer);
+    const rawLines = csv.trim().split('\n');
+    if(rawLines.length < 2) return {status:'CLEARED',items:[]};
+
+    // รวมบรรทัดที่ quote ยังไม่ปิด (กรณี JSON มี \n ข้างใน) เข้าด้วยกัน
+    const mergedLines=[];
+    let buf='';
+    rawLines.forEach(line=>{
+      buf = buf ? buf+'\n'+line : line;
+      const quoteCount=(buf.match(/"/g)||[]).length;
+      if(quoteCount % 2 === 0){ mergedLines.push(buf); buf=''; }
+    });
+    if(buf) mergedLines.push(buf);
+
+    if(mergedLines.length < 2) return {status:'CLEARED',items:[]};
+    const cols = parseCsvLine(mergedLines[1]);
     let items=[];
-    try{items=JSON.parse(cols[1]||'[]');}catch(e){}
-    return {status:cols[0]||'CLEARED', items};
-  }catch(e){ return null; }
+    try{items=JSON.parse(cols[1]||'[]');}catch(e){ console.error('JSON parse error:',e, cols[1]); }
+    return {status:(cols[0]||'CLEARED').trim(), items};
+  }catch(e){ console.error('fetchSheetStatus error:',e); return null; }
 }
 
 // ================================================================
@@ -812,12 +847,20 @@ renderHistory();
   const data=await fetchSheetStatus();
   if(data&&data.status==='PENDING'&&data.items&&data.items.length>0){
     lastKnownStatus='PENDING';
+    // sync เฉพาะรายการที่ขาด (ตาม snapshot ล่าสุดจาก Sheet)
     data.items.forEach(item=>{
       const eq=EQUIPMENT.find(d=>d.id===item.id);
-      if(eq) eq.current=item.current!==undefined?item.current:0;
+      if(eq){
+        const newVal=item.counted!==undefined?item.counted:(item.current!==undefined?item.current:0);
+        eq.current=newVal;
+      }
     });
     saveStock(); renderAll();
     showToast(`🚨 มีอุปกรณ์ขาดสต๊อก ${data.items.length} รายการ — ดูได้ที่การ์ด "อุปกรณ์ขาด"`,'warning');
+  } else if(data&&data.status==='CLEARED'){
+    lastKnownStatus='CLEARED';
+    // เคลียร์แล้ว แต่ stock ในเครื่องนี้ (เปิดมาใหม่) ยังไม่รู้ว่าตัวไหนถูกเติมแล้วบ้าง
+    // ดังนั้นเชื่อ stock localStorage ของเครื่องนี้ไปก่อน (เพราะ CLEARED แปลว่าทุกที่ครบแล้ว)
   } else {
     lastKnownStatus='CLEARED';
   }
