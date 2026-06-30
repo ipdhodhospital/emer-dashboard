@@ -6,204 +6,231 @@
 <title>ระบบตรวจสอบรถ Emergency | หอผู้ป่วยใน โรงพยาบาลฮอด</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --primary:#B71C1C; --primary-mid:#C62828; --primary-light:#FFEBEE; --primary-border:#FFCDD2;
-    --white:#FFFFFF; --green:#28A745; --green-light:#D4EDDA;
-    --yellow:#FFC107; --yellow-light:#FFF3CD; --red:#DC3545; --red-light:#F8D7DA;
-    --gray-50:#F8FAFC; --gray-100:#EFF2F7; --gray-200:#E2E8F0;
-    --gray-400:#94A3B8; --gray-600:#475569; --gray-800:#1E293B;
-    --shadow-sm:0 1px 3px rgba(183,28,28,0.08); --shadow-md:0 4px 16px rgba(183,28,28,0.12);
-    --shadow-lg:0 8px 32px rgba(183,28,28,0.18); --radius:14px; --radius-sm:8px;
-  }
-  [data-theme="dark"] {
-    --primary:#FF5252; --primary-mid:#FF1744; --primary-light:#2D0A0A; --primary-border:#5C1A1A;
-    --white:#0A0A0A; --green:#4CCA6B; --green-light:#0D2B15;
-    --yellow:#FFD84D; --yellow-light:#2B2000; --red:#FF6B78; --red-light:#2B0A0D;
-    --gray-50:#1A0A0A; --gray-100:#2A1010; --gray-200:#3A1A1A;
-    --gray-400:#9A6A6A; --gray-600:#C89A9A; --gray-800:#FFD0D0;
-    --shadow-sm:0 1px 3px rgba(0,0,0,0.4); --shadow-md:0 4px 16px rgba(0,0,0,0.4); --shadow-lg:0 8px 32px rgba(0,0,0,0.5);
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Sarabun',sans-serif;background:var(--gray-50);color:var(--gray-800);min-height:100vh;transition:background 0.3s,color 0.3s;}
+:root{
+  --primary:#B71C1C;--primary-mid:#C62828;--primary-light:#FFEBEE;--primary-border:#FFCDD2;
+  --white:#FFFFFF;--green:#28A745;--green-light:#D4EDDA;
+  --red:#DC3545;--red-light:#F8D7DA;
+  --gray-50:#F8FAFC;--gray-100:#EFF2F7;--gray-200:#E2E8F0;
+  --gray-400:#94A3B8;--gray-600:#475569;--gray-800:#1E293B;
+  --shadow-sm:0 1px 3px rgba(183,28,28,0.08);--shadow-md:0 4px 16px rgba(183,28,28,0.12);
+  --shadow-lg:0 8px 32px rgba(183,28,28,0.2);--radius:14px;--radius-sm:8px;
+}
+[data-theme="dark"]{
+  --primary:#FF5252;--primary-mid:#FF1744;--primary-light:#2D0A0A;--primary-border:#5C1A1A;
+  --white:#0A0A0A;--green:#4CCA6B;--green-light:#0D2B15;
+  --red:#FF6B78;--red-light:#2B0A0D;
+  --gray-50:#1A0A0A;--gray-100:#2A1010;--gray-200:#3A1A1A;
+  --gray-400:#9A6A6A;--gray-600:#C89A9A;--gray-800:#FFD0D0;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.4);--shadow-md:0 4px 16px rgba(0,0,0,0.4);--shadow-lg:0 8px 32px rgba(0,0,0,0.5);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sarabun',sans-serif;background:var(--gray-50);color:var(--gray-800);min-height:100vh;transition:background 0.3s,color 0.3s;}
 
-  .topnav{background:var(--primary);color:#fff;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(183,28,28,0.4);}
-  .topnav-brand{display:flex;align-items:center;gap:12px;}
-  .topnav-brand .logo{width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;}
-  .topnav-brand h1{font-size:16px;font-weight:600;line-height:1.2;}
-  .topnav-brand h1 small{display:block;font-size:11px;font-weight:400;opacity:0.8;}
-  .topnav-actions{display:flex;align-items:center;gap:10px;}
-  .btn-icon{width:36px;height:36px;border:none;border-radius:8px;background:rgba(255,255,255,0.15);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background 0.2s;}
-  .btn-icon:hover{background:rgba(255,255,255,0.25);}
-  .clock-badge{background:rgba(255,255,255,0.15);border-radius:8px;padding:6px 12px;font-size:13px;font-weight:500;}
+/* NAV */
+.topnav{background:var(--primary);color:#fff;padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(183,28,28,0.4);}
+.topnav-brand{display:flex;align-items:center;gap:10px;}
+.topnav-brand .logo{width:34px;height:34px;background:rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.topnav-brand h1{font-size:15px;font-weight:600;line-height:1.2;}
+.topnav-brand h1 small{display:block;font-size:11px;font-weight:400;opacity:0.8;}
+.topnav-actions{display:flex;align-items:center;gap:8px;}
+.btn-icon{width:34px;height:34px;border:none;border-radius:8px;background:rgba(255,255,255,0.15);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.btn-icon:hover{background:rgba(255,255,255,0.25);}
+.clock-badge{background:rgba(255,255,255,0.15);border-radius:8px;padding:5px 10px;font-size:13px;font-weight:500;}
 
-  .main-wrap{max-width:1200px;margin:0 auto;padding:20px 16px 40px;}
+/* MAIN */
+.main-wrap{max-width:1200px;margin:0 auto;padding:16px 14px 40px;}
 
-  /* HERO */
-  .scan-hero{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-mid) 100%);border-radius:var(--radius);padding:28px;margin-bottom:20px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-  .scan-hero-text h2{font-size:22px;font-weight:700;margin-bottom:4px;}
-  .scan-hero-text p{font-size:14px;opacity:0.85;}
-  .btn-scan{background:#fff;color:var(--primary);border:none;border-radius:10px;padding:12px 22px;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:transform 0.15s,box-shadow 0.15s;font-family:'Sarabun',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.2);}
-  .btn-scan:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+/* HERO */
+.scan-hero{background:linear-gradient(135deg,var(--primary),var(--primary-mid));border-radius:var(--radius);padding:22px 24px;margin-bottom:16px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.scan-hero-text h2{font-size:20px;font-weight:700;margin-bottom:3px;}
+.scan-hero-text p{font-size:13px;opacity:0.85;}
+.btn-scan{background:#fff;color:var(--primary);border:none;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;font-family:'Sarabun',sans-serif;box-shadow:0 2px 10px rgba(0,0,0,0.2);transition:transform 0.15s;}
+.btn-scan:hover{transform:translateY(-1px);}
 
-  /* STATS — ข้อ 1: 2 card เท่านั้น (ทั้งหมด + ครบ + ขาด) */
-  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
-  .stat-card{background:var(--white);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:14px;border:1px solid var(--gray-200);transition:box-shadow 0.2s;}
-  .stat-card:hover{box-shadow:var(--shadow-md);}
-  .stat-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-  .stat-icon.red-bg{background:var(--primary-light);}
-  .stat-icon.green{background:var(--green-light);}
-  .stat-icon.red{background:var(--red-light);}
-  .stat-num{font-size:28px;font-weight:700;line-height:1;}
-  .stat-num.primary{color:var(--primary);}
-  .stat-num.green{color:var(--green);}
-  .stat-num.red{color:var(--red);}
-  .stat-label{font-size:12px;color:var(--gray-600);margin-top:3px;}
+/* MISSING BANNER — ข้อ 1: แบนเนอร์ ไม่ใช่ overlay */
+.missing-banner{background:var(--red-light);border:2px solid var(--red);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;display:none;}
+.missing-banner-header{background:var(--red);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;}
+.missing-banner-body{padding:14px 20px;}
+.missing-item-row{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:10px;padding:10px 16px;margin-bottom:8px;border:1px solid #f5c6cb;gap:10px;flex-wrap:wrap;}
+.missing-item-info{flex:1;}
+.missing-item-name{font-weight:700;font-size:14px;color:var(--red);}
+.missing-item-detail{font-size:12px;color:#C62828;margin-top:2px;}
+.missing-item-actions{display:flex;align-items:center;gap:8px;}
+.qty-adj{display:flex;align-items:center;gap:6px;}
+.qty-adj-btn{width:30px;height:30px;border-radius:8px;border:2px solid var(--primary-border);background:#fff;color:var(--primary);font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
+.qty-adj-btn:hover{background:var(--primary-light);}
+.qty-adj-input{width:60px;padding:5px 8px;border-radius:8px;border:2px solid var(--primary-border);font-size:15px;text-align:center;font-family:'Sarabun',sans-serif;font-weight:700;color:var(--primary);}
+.qty-adj-input:focus{border-color:var(--primary);outline:none;}
+.missing-banner-footer{padding:10px 20px 16px;display:flex;justify-content:flex-end;gap:10px;}
 
-  /* SECTION CARD */
-  .section-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);margin-bottom:20px;overflow:hidden;}
-  .section-header{padding:16px 20px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
-  .section-title{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;}
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.stat-card{background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:12px;border:1px solid var(--gray-200);}
+.stat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.stat-icon.red-bg{background:var(--primary-light);}
+.stat-icon.green{background:var(--green-light);}
+.stat-icon.red{background:var(--red-light);}
+.stat-num{font-size:26px;font-weight:700;line-height:1;}
+.stat-num.primary{color:var(--primary);}
+.stat-num.green{color:var(--green);}
+.stat-num.red{color:var(--red);}
+.stat-label{font-size:11px;color:var(--gray-600);margin-top:2px;}
 
-  .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;}
-  .badge-green{background:var(--green-light);color:var(--green);}
-  .badge-red{background:var(--red-light);color:var(--red);}
-  .badge-primary{background:var(--primary-light);color:var(--primary);}
+/* SECTION */
+.section-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);margin-bottom:16px;overflow:hidden;}
+.section-header{padding:14px 18px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.section-title{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-green{background:var(--green-light);color:var(--green);}
+.badge-red{background:var(--red-light);color:var(--red);}
+.badge-primary{background:var(--primary-light);color:var(--primary);}
 
-  /* TABLE — ข้อ 2: ตัดคอลัมน์ดำเนินการออก, ข้อ 3: แสดงสถานะ ครบ/ขาด */
-  .drug-table{width:100%;border-collapse:collapse;}
-  .drug-table th{background:var(--gray-50);padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid var(--gray-200);}
-  .drug-table td{padding:11px 16px;border-bottom:1px solid var(--gray-100);font-size:14px;vertical-align:middle;}
-  .drug-table tr:last-child td{border-bottom:none;}
-  .drug-table tr:hover td{background:var(--gray-50);}
-  .drug-name{font-weight:500;}
-  .qty-pill{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:28px;border-radius:8px;font-size:13px;font-weight:700;padding:0 8px;}
-  .qty-ok{background:var(--green-light);color:var(--green);}
-  .qty-critical{background:var(--red-light);color:var(--red);}
-  .status-badge-ok{background:var(--green-light);color:var(--green);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;}
-  .status-badge-miss{background:var(--red-light);color:var(--red);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;animation:pulseRed 1.5s infinite;}
-  @keyframes pulseRed{0%,100%{opacity:1}50%{opacity:0.6}}
-  .cat-row td{background:var(--primary-light);font-size:12px;font-weight:700;color:var(--primary);padding:7px 16px;letter-spacing:0.05em;}
+/* TABLE — ข้อ 2: มีคอลัมน์ ขาด และ +/- */
+.drug-table{width:100%;border-collapse:collapse;}
+.drug-table th{background:var(--gray-50);padding:9px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--gray-200);}
+.drug-table td{padding:10px 14px;border-bottom:1px solid var(--gray-100);font-size:13px;vertical-align:middle;}
+.drug-table tr:last-child td{border-bottom:none;}
+.drug-table tr:hover td{background:var(--gray-50);}
+.drug-name{font-weight:500;font-size:13px;}
+.qty-pill{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;border-radius:7px;font-size:12px;font-weight:700;padding:0 7px;}
+.qty-ok{background:var(--green-light);color:var(--green);}
+.qty-critical{background:var(--red-light);color:var(--red);}
+.shortage-pill{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;border-radius:7px;font-size:12px;font-weight:700;padding:0 7px;background:#fff3cd;color:#856404;}
+.shortage-zero{background:var(--green-light);color:var(--green);}
+/* ข้อ 3: ปุ่ม +/- ในตาราง */
+.tbl-adj{display:flex;align-items:center;gap:4px;}
+.tbl-adj-btn{width:26px;height:26px;border-radius:6px;border:1.5px solid var(--primary-border);background:var(--white);color:var(--primary);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;flex-shrink:0;}
+.tbl-adj-btn:hover{background:var(--primary-light);}
+.tbl-adj-val{width:44px;text-align:center;font-size:13px;font-weight:700;color:var(--primary);border:1.5px solid var(--primary-border);border-radius:6px;padding:3px 4px;font-family:'Sarabun',sans-serif;background:var(--white);}
+.tbl-adj-val:focus{outline:none;border-color:var(--primary);}
+.btn-add-tbl{background:var(--primary-light);color:var(--primary);border:1px solid var(--primary-border);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Sarabun',sans-serif;white-space:nowrap;}
+.btn-add-tbl:hover{background:var(--primary-border);}
 
-  /* SHIFT TABS */
-  .shift-tabs{display:flex;gap:6px;}
-  .shift-tab{padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Sarabun',sans-serif;transition:all 0.2s;}
-  .shift-tab.active{background:var(--primary);color:#fff;}
-  .shift-tab:not(.active){background:var(--gray-100);color:var(--gray-600);}
-  .shift-tab:not(.active):hover{background:var(--primary-light);color:var(--primary);}
+.status-badge-ok{background:var(--green-light);color:var(--green);border-radius:16px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;}
+.status-badge-miss{background:var(--red-light);color:var(--red);border-radius:16px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:3px;animation:pulseRed 1.5s infinite;}
+@keyframes pulseRed{0%,100%{opacity:1}50%{opacity:0.6}}
+.cat-row td{background:var(--primary-light);font-size:11px;font-weight:700;color:var(--primary);padding:6px 14px;letter-spacing:0.04em;}
 
-  /* PAGE TABS */
-  .page-tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--gray-100);border-radius:12px;padding:4px;}
-  .page-tab{flex:1;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Sarabun',sans-serif;transition:all 0.2s;text-align:center;}
-  .page-tab.active{background:var(--white);color:var(--primary);font-weight:700;box-shadow:var(--shadow-sm);}
-  .page-tab:not(.active){background:transparent;color:var(--gray-600);}
-  .tab-content{display:none;}
-  .tab-content.active{display:block;}
+/* TABS */
+.shift-tabs{display:flex;gap:5px;}
+.shift-tab{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Sarabun',sans-serif;transition:all 0.2s;}
+.shift-tab.active{background:var(--primary);color:#fff;}
+.shift-tab:not(.active){background:var(--gray-100);color:var(--gray-600);}
+.shift-tab:not(.active):hover{background:var(--primary-light);color:var(--primary);}
+.page-tabs{display:flex;gap:4px;margin-bottom:14px;background:var(--gray-100);border-radius:12px;padding:4px;}
+.page-tab{flex:1;padding:9px;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Sarabun',sans-serif;transition:all 0.2s;text-align:center;}
+.page-tab.active{background:var(--white);color:var(--primary);font-weight:700;box-shadow:var(--shadow-sm);}
+.page-tab:not(.active){background:transparent;color:var(--gray-600);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
 
-  /* MISSING ALERT */
-  /* FULLSCREEN BLOCKING OVERLAY */
-  .missing-overlay{position:fixed;inset:0;z-index:9999;background:rgba(100,0,0,0.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeInBlock 0.3s ease;}
-  .missing-overlay.hidden{display:none;}
-  @keyframes fadeInBlock{from{opacity:0}to{opacity:1}}
-  .missing-box{background:#fff;border-radius:20px;width:100%;max-width:680px;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 100px rgba(0,0,0,0.6);animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
-  @keyframes popIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
-  .missing-box-header{background:linear-gradient(135deg,#7F0000,#B71C1C,#E53935);color:#fff;padding:28px 32px 24px;text-align:center;flex-shrink:0;}
-  .missing-box-header .alert-icon{font-size:64px;display:block;margin-bottom:12px;animation:shake 0.5s ease infinite alternate;}
-  @keyframes shake{from{transform:rotate(-10deg) scale(1)}to{transform:rotate(10deg) scale(1.1)}}
-  .missing-box-header h2{font-size:26px;font-weight:800;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3);}
-  .missing-box-header p{font-size:14px;opacity:0.9;font-weight:500;}
-  .missing-box-body{overflow-y:auto;padding:24px 28px;flex:1;}
-  .missing-count-badge{background:#B71C1C;color:#fff;border-radius:50px;padding:8px 20px;font-size:14px;font-weight:700;display:inline-block;margin-bottom:18px;}
-  .missing-drug-item{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#FFF5F5;border-radius:14px;margin-bottom:12px;border:2px solid #FFCDD2;gap:12px;flex-wrap:wrap;}
-  .missing-drug-info{flex:1;}
-  .missing-drug-name{font-weight:700;font-size:17px;color:#B71C1C;display:flex;align-items:center;gap:8px;}
-  .missing-drug-detail{font-size:13px;color:#C62828;margin-top:5px;font-weight:500;}
-  .missing-input-row{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-  .missing-input-label{font-size:13px;font-weight:600;color:#555;white-space:nowrap;}
-  .missing-input{width:90px;padding:10px 12px;border-radius:10px;border:2px solid #FFCDD2;font-size:18px;text-align:center;font-family:'Sarabun',sans-serif;background:#fff;color:#B71C1C;font-weight:700;}
-  .missing-input:focus{border-color:#B71C1C;outline:none;box-shadow:0 0 0 3px rgba(183,28,28,0.2);}
-  .missing-box-footer{padding:20px 28px 24px;border-top:2px solid #FFCDD2;background:#FFF5F5;flex-shrink:0;}
-  .btn-confirm-restock{background:linear-gradient(135deg,#1B5E20,#28A745,#2ECC71);color:#fff;border:none;border-radius:14px;padding:18px 40px;font-size:20px;font-weight:800;cursor:pointer;font-family:'Sarabun',sans-serif;box-shadow:0 6px 20px rgba(40,167,69,0.45);transition:transform 0.15s,box-shadow 0.15s;width:100%;letter-spacing:0.5px;}
-  .btn-confirm-restock:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(40,167,69,0.55);}
-  .missing-warn-text{font-size:12px;color:#999;margin-top:12px;text-align:center;}
-  [data-theme="dark"] .missing-box{background:#1a0a0a;}
-  [data-theme="dark"] .missing-drug-item{background:#2D0A0A;border-color:#5C1A1A;}
-  [data-theme="dark"] .missing-drug-name{color:#FF8A80;}
-  [data-theme="dark"] .missing-drug-detail{color:#FF5252;}
-  [data-theme="dark"] .missing-box-footer{background:#2D0A0A;border-color:#5C1A1A;}
-  [data-theme="dark"] .missing-input{background:#1a0a0a;color:#FF8A80;border-color:#5C1A1A;}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(3px);}
+.modal-overlay.hidden{display:none;}
+.modal-box{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-lg);width:100%;max-width:500px;max-height:92vh;overflow-y:auto;animation:slideUp 0.25s ease;}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{padding:18px 22px 14px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1;border-radius:var(--radius) var(--radius) 0 0;}
+.modal-header h3{font-size:17px;font-weight:700;}
+.modal-body{padding:18px 22px;}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--gray-200);display:flex;gap:8px;justify-content:flex-end;}
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:5px;}
+.form-control{width:100%;padding:9px 12px;border-radius:var(--radius-sm);border:1.5px solid var(--gray-200);background:var(--gray-50);font-size:14px;color:var(--gray-800);font-family:'Sarabun',sans-serif;outline:none;}
+.form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(183,28,28,0.1);background:var(--white);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
-  /* MODAL */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px);}
-  .modal-overlay.hidden{display:none;}
-  .modal-box{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-lg);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;animation:slideUp 0.25s ease;}
-  @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-  .modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:1;border-radius:var(--radius) var(--radius) 0 0;}
-  .modal-header h3{font-size:18px;font-weight:700;}
-  .modal-body{padding:20px 24px;}
-  .modal-footer{padding:16px 24px;border-top:1px solid var(--gray-200);display:flex;gap:10px;justify-content:flex-end;}
-  .form-group{margin-bottom:16px;}
-  .form-label{display:block;font-size:13px;font-weight:600;color:var(--gray-600);margin-bottom:6px;}
-  .form-control{width:100%;padding:10px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--gray-200);background:var(--gray-50);font-size:15px;color:var(--gray-800);font-family:'Sarabun',sans-serif;transition:border-color 0.2s,box-shadow 0.2s;outline:none;}
-  .form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(183,28,28,0.1);background:var(--white);}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .btn{padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sarabun',sans-serif;transition:all 0.2s;}
-  .btn-primary{background:var(--primary);color:#fff;}
-  .btn-primary:hover{background:var(--primary-mid);}
-  .btn-success{background:var(--green);color:#fff;}
-  .btn-success:hover{filter:brightness(1.1);}
-  .btn-danger{background:var(--red);color:#fff;}
-  .btn-secondary{background:var(--gray-100);color:var(--gray-600);}
-  .btn-secondary:hover{background:var(--gray-200);}
+/* ข้อ 1: ขั้นตอนตรวจนับในหน้า modal ปกติ */
+.check-drug-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap;}
+.check-drug-row:last-child{border-bottom:none;}
+.check-drug-info{flex:1;min-width:140px;}
+.check-drug-name{font-size:13px;font-weight:500;}
+.check-drug-sub{font-size:11px;color:var(--gray-400);margin-top:1px;}
+.check-drug-input{width:72px;padding:7px;border-radius:7px;border:1.5px solid var(--gray-200);font-size:14px;text-align:center;font-family:'Sarabun',sans-serif;background:var(--gray-50);color:var(--gray-800);}
+.check-drug-input:focus{border-color:var(--primary);outline:none;}
+.shortage-label{font-size:11px;font-weight:700;min-width:50px;text-align:right;}
+.shortage-label.miss{color:var(--red);}
+.shortage-label.ok{color:var(--green);}
 
-  /* HISTORY */
-  .history-item{padding:12px 20px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:14px;}
-  .history-item:last-child{border-bottom:none;}
-  .history-info{flex:1;}
-  .history-nurse{font-size:13px;font-weight:500;}
-  .history-detail{font-size:12px;color:var(--gray-400);}
-  /* RESTOCK HISTORY */
-  .restock-item{padding:12px 20px;border-bottom:1px solid var(--gray-100);display:flex;align-items:flex-start;gap:14px;}
-  .restock-item:last-child{border-bottom:none;}
-  .restock-item:hover{background:var(--gray-50);}
-  .restock-badge{background:var(--green-light);color:var(--green);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;white-space:nowrap;}
-  .restock-info{flex:1;}
-  .restock-date{font-size:13px;font-weight:700;color:var(--green);}
-  .restock-by{font-size:12px;color:var(--gray-400);margin-top:2px;}
-  .restock-items-list{margin-top:8px;display:flex;flex-direction:column;gap:4px;}
-  .restock-drug-row{display:flex;align-items:center;gap:8px;font-size:13px;}
-  .restock-drug-name{flex:1;font-weight:500;}
-  .restock-drug-qty{background:var(--green-light);color:var(--green);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700;white-space:nowrap;}
+/* ผลสรุปการตรวจ */
+.check-summary{background:var(--gray-50);border-radius:10px;padding:14px;margin-bottom:14px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.check-summary-item{text-align:center;}
+.check-summary-num{font-size:28px;font-weight:800;line-height:1;}
+.check-summary-label{font-size:11px;color:var(--gray-600);margin-top:2px;}
 
-  /* SUCCESS */
-  .success-screen{text-align:center;padding:32px 24px;}
-  .success-icon{font-size:64px;margin-bottom:16px;}
-  .success-title{font-size:22px;font-weight:700;color:var(--green);margin-bottom:8px;}
-  .success-sub{font-size:14px;color:var(--gray-600);}
+/* HISTORY */
+.history-item{padding:11px 18px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:12px;}
+.history-item:last-child{border-bottom:none;}
+.history-info{flex:1;}
+.history-nurse{font-size:13px;font-weight:500;}
+.history-detail{font-size:11px;color:var(--gray-400);}
 
-  /* TOAST */
-  .toast-container{position:fixed;bottom:20px;right:20px;z-index:300;display:flex;flex-direction:column;gap:8px;}
-  .toast{background:var(--gray-800);color:#fff;padding:12px 18px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:8px;animation:toastIn 0.3s ease;max-width:320px;}
-  .toast.success{background:var(--green);}
-  .toast.error{background:var(--red);}
-  .toast.warning{background:#cc9500;}
-  @keyframes toastIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+/* SUCCESS */
+.success-screen{text-align:center;padding:28px 22px;}
+.success-icon{font-size:56px;margin-bottom:14px;}
+.success-title{font-size:20px;font-weight:700;color:var(--green);margin-bottom:6px;}
+.success-sub{font-size:13px;color:var(--gray-600);}
 
-  .footer{text-align:center;padding:24px;font-size:12px;color:var(--gray-400);border-top:1px solid var(--gray-200);margin-top:10px;}
-  .footer strong{color:var(--primary);}
-  .empty-state{padding:40px;text-align:center;color:var(--gray-400);}
-  .empty-state .empty-icon{font-size:40px;margin-bottom:10px;}
+/* BTNS */
+.btn{padding:9px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Sarabun',sans-serif;transition:all 0.2s;}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-mid);}
+.btn-success{background:var(--green);color:#fff;}
+.btn-success:hover{filter:brightness(1.1);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-secondary{background:var(--gray-100);color:var(--gray-600);}
+.btn-secondary:hover{background:var(--gray-200);}
 
-  @media(max-width:768px){
-    .stats-row{grid-template-columns:repeat(3,1fr);}
-    .scan-hero{flex-direction:column;align-items:flex-start;}
-    .form-row{grid-template-columns:1fr;}
-    .topnav-brand h1{font-size:13px;}
-  }
-  @media(max-width:480px){
-    .stats-row{grid-template-columns:1fr 1fr 1fr;}
-    .main-wrap{padding:12px 10px 40px;}
-    .stat-num{font-size:22px;}
-  }
+/* TOAST */
+.toast-container{position:fixed;bottom:18px;right:18px;z-index:300;display:flex;flex-direction:column;gap:7px;}
+.toast{background:var(--gray-800);color:#fff;padding:11px 16px;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:7px;animation:toastIn 0.3s ease;max-width:300px;}
+.toast.success{background:var(--green);}
+.toast.error{background:var(--red);}
+.toast.warning{background:#cc9500;}
+@keyframes toastIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+.footer{text-align:center;padding:22px;font-size:11px;color:var(--gray-400);border-top:1px solid var(--gray-200);margin-top:8px;}
+.footer strong{color:var(--primary);}
+.empty-state{padding:36px;text-align:center;color:var(--gray-400);}
+.empty-state .empty-icon{font-size:36px;margin-bottom:8px;}
+
+/* FULLSCREEN MISSING OVERLAY — sync ทุกเครื่อง */
+.missing-overlay{position:fixed;inset:0;z-index:9999;background:rgba(100,0,0,0.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:14px;animation:fadeInBlock 0.3s ease;}
+.missing-overlay.hidden{display:none;}
+@keyframes fadeInBlock{from{opacity:0}to{opacity:1}}
+.missing-box{background:#fff;border-radius:20px;width:100%;max-width:680px;max-height:94vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 100px rgba(0,0,0,0.6);animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes popIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.missing-box-header{background:linear-gradient(135deg,#7F0000,#B71C1C,#E53935);color:#fff;padding:24px 28px 20px;text-align:center;flex-shrink:0;}
+.missing-box-header .alert-icon{font-size:56px;display:block;margin-bottom:10px;animation:shake 0.5s ease infinite alternate;}
+@keyframes shake{from{transform:rotate(-10deg) scale(1)}to{transform:rotate(10deg) scale(1.1)}}
+.missing-box-header h2{font-size:24px;font-weight:800;margin-bottom:4px;}
+.missing-box-header p{font-size:13px;opacity:0.9;}
+.missing-box-body{overflow-y:auto;padding:20px 24px;flex:1;}
+.missing-count-badge{background:#B71C1C;color:#fff;border-radius:50px;padding:6px 18px;font-size:13px;font-weight:700;display:inline-block;margin-bottom:16px;}
+.missing-drug-item-overlay{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#FFF5F5;border-radius:12px;margin-bottom:10px;border:2px solid #FFCDD2;gap:10px;flex-wrap:wrap;}
+.missing-drug-name-ov{font-weight:700;font-size:16px;color:#B71C1C;}
+.missing-drug-detail-ov{font-size:12px;color:#C62828;margin-top:4px;}
+.missing-input-ov{width:80px;padding:8px 10px;border-radius:8px;border:2px solid #FFCDD2;font-size:16px;text-align:center;font-family:'Sarabun',sans-serif;background:#fff;color:#B71C1C;font-weight:700;}
+.missing-input-ov:focus{border-color:#B71C1C;outline:none;}
+.missing-box-footer{padding:18px 24px 22px;border-top:2px solid #FFCDD2;background:#FFF5F5;flex-shrink:0;}
+.btn-confirm-restock{background:linear-gradient(135deg,#1B5E20,#28A745);color:#fff;border:none;border-radius:12px;padding:16px 36px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Sarabun',sans-serif;box-shadow:0 6px 20px rgba(40,167,69,0.4);transition:transform 0.15s;width:100%;}
+.btn-confirm-restock:hover{transform:translateY(-2px);}
+.missing-warn-text{font-size:11px;color:#999;margin-top:10px;text-align:center;}
+[data-theme="dark"] .missing-box{background:#1a0a0a;}
+[data-theme="dark"] .missing-drug-item-overlay{background:#2D0A0A;border-color:#5C1A1A;}
+[data-theme="dark"] .missing-box-footer{background:#2D0A0A;border-color:#5C1A1A;}
+[data-theme="dark"] .missing-input-ov{background:#1a0a0a;color:#FF8A80;border-color:#5C1A1A;}
+
+@media(max-width:768px){
+  .stats-row{grid-template-columns:repeat(3,1fr);}
+  .scan-hero{flex-direction:column;align-items:flex-start;}
+  .form-row{grid-template-columns:1fr;}
+  .drug-table th:nth-child(5),.drug-table td:nth-child(5){display:none;}
+}
+@media(max-width:480px){
+  .main-wrap{padding:10px 8px 36px;}
+  .stat-num{font-size:22px;}
+  .drug-table th,.drug-table td{padding:8px 8px;}
+}
 </style>
 </head>
 <body>
@@ -223,7 +250,7 @@
 
 <div class="main-wrap">
 
-  <!-- FULLSCREEN MISSING OVERLAY — บล็อกทุกการใช้งาน -->
+  <!-- FULLSCREEN OVERLAY sync ทุกเครื่อง (จาก Sheet) -->
   <div class="missing-overlay hidden" id="missingOverlay">
     <div class="missing-box">
       <div class="missing-box-header">
@@ -236,10 +263,10 @@
         <div id="missingAlertBody"></div>
       </div>
       <div class="missing-box-footer">
-        <button class="btn-confirm-restock" onclick="confirmRestock()">
+        <button class="btn-confirm-restock" onclick="confirmRestockOverlay()">
           ✅ ยืนยันเติมสต๊อกครบแล้ว — ปลดล็อกระบบ
         </button>
-        <div class="missing-warn-text">⚠️ ระบบจะถูกล็อกไว้จนกว่าจะกดยืนยัน — เพื่อป้องกันสต๊อกขาดโดยไม่มีคนเติม</div>
+        <div class="missing-warn-text">⚠️ ระบบถูกล็อกจนกว่าจะกดยืนยัน — ป้องกันสต๊อกขาดโดยไม่มีคนเติม</div>
       </div>
     </div>
   </div>
@@ -247,14 +274,11 @@
   <div class="scan-hero">
     <div class="scan-hero-text">
       <h2>🚑 บันทึกการตรวจสอบรถ Emergency</h2>
-      <p>กดปุ่มด้านขวาเพื่อเริ่มบันทึก • ข้อมูลบันทึกใน Google Sheet แยกรายเดือน</p>
+      <p>กดบันทึกการตรวจ • ข้อมูลบันทึกใน Google Sheet แยกรายเดือน</p>
     </div>
-    <div>
-      <button class="btn-scan" onclick="openCheckModal()"><span>✏️</span> บันทึกการตรวจ</button>
-    </div>
+    <button class="btn-scan" onclick="openCheckModal()"><span>✏️</span> บันทึกการตรวจ</button>
   </div>
 
-  <!-- ข้อ 1: 3 stat cards (ทั้งหมด / ครบ / ขาด) -->
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-icon red-bg">🚑</div>
@@ -273,14 +297,13 @@
   <div class="page-tabs">
     <button class="page-tab active" onclick="switchTab('tab-equipment',this)">🛠️ อุปกรณ์ทั้งหมด</button>
     <button class="page-tab" onclick="switchTab('tab-history',this)">📜 ประวัติการตรวจ</button>
-    <button class="page-tab" onclick="switchTab('tab-restock',this)">📦 ประวัติการเติม</button>
   </div>
 
   <div class="tab-content active" id="tab-equipment">
     <div class="section-card">
       <div class="section-header">
         <div class="section-title">🚑 รายการอุปกรณ์รถ Emergency</div>
-        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <div class="shift-tabs">
             <button class="shift-tab active" onclick="setShift('N',this)">เวร N</button>
             <button class="shift-tab" onclick="setShift('D',this)">เวร D</button>
@@ -290,9 +313,18 @@
         </div>
       </div>
       <div style="overflow-x:auto">
-        <!-- ข้อ 2: ตัดคอลัมน์ดำเนินการออก, ข้อ 3: สถานะแสดง ครบ/ขาด -->
+        <!-- ข้อ 2+3: คอลัมน์ มาตรฐาน / นับได้ / ขาด / เพิ่ม -->
         <table class="drug-table">
-          <thead><tr><th>#</th><th>รายการ</th><th>มาตรฐาน</th><th>นับได้</th><th>สถานะ</th></tr></thead>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>รายการ</th>
+              <th>มาตรฐาน</th>
+              <th>ปัจจุบัน</th>
+              <th>ขาด</th>
+              <th>เพิ่ม (+/-)</th>
+            </tr>
+          </thead>
           <tbody id="equipTableBody"></tbody>
         </table>
       </div>
@@ -310,17 +342,6 @@
     </div>
   </div>
 
-  <div class="tab-content" id="tab-restock">
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title">📦 ประวัติการเติมสต๊อก</div>
-      </div>
-      <div id="restockList">
-        <div class="empty-state"><div class="empty-icon">📦</div><div>ยังไม่มีการเติมสต๊อก</div></div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <div class="footer">
@@ -328,7 +349,7 @@
 </div>
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- MODAL: บันทึกการตรวจ (ข้อ 5: ตัดเวลา+ครั้งก่อนออก) -->
+<!-- MODAL: บันทึกการตรวจ — ข้อ 1: ไม่ overlay ให้เห็นยอดขาดแล้วบันทึกได้เลย -->
 <div class="modal-overlay hidden" id="checkModal">
   <div class="modal-box">
     <div class="modal-header">
@@ -336,8 +357,8 @@
       <button class="btn-icon" style="background:var(--gray-100);color:var(--gray-600)" onclick="closeModal('checkModal')">✕</button>
     </div>
     <div class="modal-body">
+      <!-- Step 1: ข้อมูลพื้นฐาน -->
       <div id="checkStep1">
-        <!-- ข้อ 5: เฉพาะ วันที่ เวร ชื่อ -->
         <div class="form-group">
           <label class="form-label">วันที่ตรวจ *</label>
           <input type="date" class="form-control" id="checkDate">
@@ -345,9 +366,9 @@
         <div class="form-group">
           <label class="form-label">เวรที่ตรวจ *</label>
           <select class="form-control" id="checkShift">
-            <option value="N">เวร N (ดึก 00:00 - 08:00)</option>
-            <option value="D">เวร D (เช้า 08:00 - 16:00)</option>
-            <option value="E">เวร E (บ่าย 16:00 - 24:00)</option>
+            <option value="N">เวร N (ดึก 00:00–08:00)</option>
+            <option value="D">เวร D (เช้า 08:00–16:00)</option>
+            <option value="E">เวร E (บ่าย 16:00–24:00)</option>
           </select>
         </div>
         <div class="form-group">
@@ -355,10 +376,26 @@
           <input type="text" class="form-control" id="checkNurse" placeholder="ระบุชื่อ-นามสกุล">
         </div>
       </div>
+      <!-- Step 2: นับอุปกรณ์ + เห็นยอดขาดทันที -->
       <div id="checkStep2" style="display:none">
-        <p style="font-size:13px;color:var(--gray-600);margin-bottom:14px">กรุณาระบุจำนวนที่นับได้จริง:</p>
+        <div class="check-summary" id="checkSummary">
+          <div class="check-summary-item">
+            <div class="check-summary-num" id="sumTotal" style="color:var(--primary)">0</div>
+            <div class="check-summary-label">รายการทั้งหมด</div>
+          </div>
+          <div class="check-summary-item">
+            <div class="check-summary-num" id="sumOk" style="color:var(--green)">0</div>
+            <div class="check-summary-label">ครบ</div>
+          </div>
+          <div class="check-summary-item">
+            <div class="check-summary-num" id="sumMiss" style="color:var(--red)">0</div>
+            <div class="check-summary-label">ขาด</div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--gray-600);margin-bottom:12px">ระบุจำนวนที่นับได้จริง — ยอดขาดจะแสดงอัตโนมัติ:</p>
         <div id="equipCountForm"></div>
       </div>
+      <!-- Step 3: สำเร็จ -->
       <div id="checkStep3" style="display:none">
         <div class="success-screen">
           <div class="success-icon">✅</div>
@@ -376,7 +413,7 @@
 
 <script>
 // ================================================================
-// ข้อมูลอุปกรณ์รถ Emergency
+// ข้อมูลอุปกรณ์
 // ================================================================
 const EQUIPMENT = [
   {id:'e1', name:'กล่องยา Emergency',              category:'กล่องยา Emergency', std:1,  current:1},
@@ -430,123 +467,56 @@ const EQUIPMENT = [
 ];
 
 // ================================================================
-// Google Sheet URL
+// Google Sheet
 // ================================================================
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwBfH6AZCPlIH5dHg2MnSWLN7xlY6gSJ4swvI_X83UzoZf6tUGVmUKQonB0pI4O5Hg1QA/exec';
+const STATUS_CSV = 'https://docs.google.com/spreadsheets/d/1hO-ziv8bojqCMi5FzuU308QsJOnRvWemhYi8f5ZvrUo/gviz/tq?tqx=out:csv&sheet=สถานะสต๊อก';
 
-async function sendToSheet(rows) {
+async function sendToSheet(rows){
   if(!rows.length) return;
-  try {
+  try{
     await fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({rows})});
     showToast('☁️ บันทึกลง Google Sheet แล้ว','success');
-  } catch(err){ showToast('⚠️ ส่ง Sheet ไม่สำเร็จ','warning'); }
+  }catch(e){showToast('⚠️ ส่ง Sheet ไม่สำเร็จ','warning');}
 }
 
-// ================================================================
-// Storage — localStorage สำหรับ history, stock
-//           Google Sheet สำหรับ PENDING status (sync ทุกเครื่อง)
-// ================================================================
-const LS_HISTORY='emer_history_v3', LS_STOCK='emer_stock_v3', LS_RESTOCK='emer_restock_v3';
-let pollInterval=null;
-
-function loadHistory(){ try{return JSON.parse(localStorage.getItem(LS_HISTORY)||'[]');}catch(e){return[];} }
-function saveHistory(a){ localStorage.setItem(LS_HISTORY,JSON.stringify(a)); }
-function loadRestockHistory(){ try{return JSON.parse(localStorage.getItem(LS_RESTOCK)||'[]');}catch(e){return[];} }
-function saveRestockHistory(a){ localStorage.setItem(LS_RESTOCK,JSON.stringify(a.slice(0,200))); }
-function saveStock(){ const s={}; EQUIPMENT.forEach(d=>s[d.id]=d.current); localStorage.setItem(LS_STOCK,JSON.stringify(s)); }
-function applyStock(){ try{ const s=JSON.parse(localStorage.getItem(LS_STOCK)||'null'); if(!s) return; EQUIPMENT.forEach(d=>{if(s[d.id]!==undefined) d.current=s[d.id];}); }catch(e){} }
-
-// ================================================================
-// Google Sheet STATUS API — sync ทุกเครื่อง
-// ================================================================
-async function setSheetPending(missingItems){
-  try {
-    await fetch(GAS_URL,{
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        rows:[{type:'SET_STATUS', status:'PENDING', items:missingItems}]
-      })
-    });
-  } catch(e){ console.error('setSheetPending error',e); }
+async function setSheetPending(items){
+  try{ await fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({rows:[{type:'SET_STATUS',status:'PENDING',items}]})}); }
+  catch(e){}
 }
 
 async function clearSheetPending(){
-  try {
-    await fetch(GAS_URL,{
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        rows:[{type:'SET_STATUS', status:'CLEARED', items:[]}]
-      })
-    });
-  } catch(e){ console.error('clearSheetPending error',e); }
+  try{ await fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({rows:[{type:'SET_STATUS',status:'CLEARED',items:[]}]})}); }
+  catch(e){}
 }
-
-// ================================================================
-// fetchSheetStatus — ดึงจาก Google Sheet CSV สาธารณะ (ไม่ติด CORS)
-// Sheet "สถานะสต๊อก" ต้องเป็น Public (Share → Anyone with link → Viewer)
-// ================================================================
-const STATUS_SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1hO-ziv8bojqCMi5FzuU308QsJOnRvWemhYi8f5ZvrUo/gviz/tq?tqx=out:csv&sheet=สถานะสต๊อก';
 
 async function fetchSheetStatus(){
-  try {
-    // เพิ่ม timestamp เพื่อป้องกัน cache
-    const url = STATUS_SHEET_CSV + '&t=' + Date.now();
-    const res = await fetch(url, {method:'GET', cache:'no-store'});
+  try{
+    const res = await fetch(STATUS_CSV+'&t='+Date.now(),{method:'GET',cache:'no-store'});
     if(!res.ok) return null;
     const csv = await res.text();
-    // Parse CSV — แถวที่ 2 (index 1) คือข้อมูล
     const rows = csv.trim().split('\n');
-    if(rows.length < 2) return {status:'CLEARED', items:[]};
-    // ลบ quote จาก CSV
+    if(rows.length < 2) return {status:'CLEARED',items:[]};
     const cols = rows[1].split('","').map(c=>c.replace(/^"|"$/g,'').trim());
-    const statusVal = cols[0] || 'CLEARED';
-    let items = [];
-    try{ items = JSON.parse(cols[1] || '[]'); }catch(e){}
-    return { status: statusVal, items: items, updatedAt: cols[2]||'' };
-  } catch(e){
-    console.error('fetchSheetStatus error:', e);
-    return null;
-  }
+    let items=[];
+    try{items=JSON.parse(cols[1]||'[]');}catch(e){}
+    return {status:cols[0]||'CLEARED', items};
+  }catch(e){ return null; }
 }
 
 // ================================================================
-// Polling — ดึงสถานะจาก Sheet ทุก 30 วินาที
+// localStorage — history + stock
 // ================================================================
-let lastKnownStatus = 'CLEARED';
-
-function startPolling(){
-  if(pollInterval) clearInterval(pollInterval);
-  pollInterval = setInterval(async ()=>{
-    const data = await fetchSheetStatus();
-    if(!data) return;
-    if(data.status==='PENDING' && lastKnownStatus!=='PENDING'){
-      lastKnownStatus='PENDING';
-      // sync stock จาก sheet
-      if(data.items && data.items.length>0){
-        data.items.forEach(item=>{
-          const eq=EQUIPMENT.find(d=>d.id===item.id);
-          if(eq) eq.current=item.current||0;
-        });
-        saveStock();
-        renderAll();
-        showMissingAlert(data.items);
-      }
-    } else if(data.status==='CLEARED' && lastKnownStatus==='PENDING'){
-      lastKnownStatus='CLEARED';
-      document.getElementById('missingOverlay').classList.add('hidden');
-      document.body.style.overflow='';
-      renderAll();
-      showToast('✅ สต๊อกได้รับการเติมครบแล้ว','success');
-    }
-  }, 30000); // 30 วินาที
-}
+const LS_HISTORY='emer_h_v3', LS_STOCK='emer_s_v3';
+function loadHistory(){ try{return JSON.parse(localStorage.getItem(LS_HISTORY)||'[]');}catch(e){return[];} }
+function saveHistory(a){ localStorage.setItem(LS_HISTORY,JSON.stringify(a)); }
+function saveStock(){ const s={}; EQUIPMENT.forEach(d=>s[d.id]=d.current); localStorage.setItem(LS_STOCK,JSON.stringify(s)); }
+function applyStock(){ try{ const s=JSON.parse(localStorage.getItem(LS_STOCK)||'null'); if(!s)return; EQUIPMENT.forEach(d=>{if(s[d.id]!==undefined)d.current=s[d.id];}); }catch(e){} }
 
 // ================================================================
 // State
 // ================================================================
-let checkStep=1, isDark=false;
+let checkStep=1, isDark=false, lastKnownStatus='CLEARED', pollInterval=null;
 
 function updateClock(){ document.getElementById('clock').textContent=new Date().toLocaleTimeString('th-TH'); }
 setInterval(updateClock,1000); updateClock();
@@ -558,10 +528,10 @@ function toggleTheme(){
 }
 
 // ================================================================
-// ข้อ 1: Stats — ทั้งหมด / ครบ / ขาด
+// Stats
 // ================================================================
 function updateStats(){
-  let ok=0, critical=0;
+  let ok=0,critical=0;
   EQUIPMENT.forEach(d=>{ if(d.current>=d.std) ok++; else critical++; });
   document.getElementById('statTotal').textContent=EQUIPMENT.length;
   document.getElementById('statOk').textContent=ok;
@@ -569,15 +539,7 @@ function updateStats(){
 }
 
 // ================================================================
-// ข้อ 3: สถานะ ครบ / ขาด เท่านั้น
-// ================================================================
-function getStatus(d){
-  if(d.current>=d.std) return {ok:true, label:'ครบ', missing:0};
-  return {ok:false, label:`ขาด ${d.std-d.current}`, missing:d.std-d.current};
-}
-
-// ================================================================
-// ข้อ 2+3: Render table — ไม่มีคอลัมน์ดำเนินการ, สถานะ ครบ/ขาด
+// ข้อ 2+3: Render table — แสดงยอดขาด + ปุ่ม +/-
 // ================================================================
 function renderTable(){
   const tbody=document.getElementById('equipTableBody');
@@ -585,25 +547,77 @@ function renderTable(){
   EQUIPMENT.forEach(d=>{
     if(d.category!==lastCat){
       const tr=document.createElement('tr'); tr.className='cat-row';
-      tr.innerHTML=`<td colspan="5">📁 ${d.category}</td>`;
+      tr.innerHTML=`<td colspan="6">📁 ${d.category}</td>`;
       tbody.appendChild(tr); lastCat=d.category;
     }
-    const st=getStatus(d);
+    const shortage=Math.max(0,d.std-d.current);
+    const isOk=d.current>=d.std;
     const tr=document.createElement('tr');
     tr.innerHTML=`
-      <td style="color:var(--gray-400);font-size:12px">${idx++}</td>
+      <td style="color:var(--gray-400);font-size:11px">${idx++}</td>
       <td><div class="drug-name">${d.name}</div></td>
       <td><span class="qty-pill" style="background:var(--primary-light);color:var(--primary)">${d.std}</span></td>
-      <td><span class="qty-pill ${st.ok?'qty-ok':'qty-critical'}">${d.current}</span></td>
-      <td>${st.ok
-        ? `<span class="status-badge-ok">✅ ครบ</span>`
-        : `<span class="status-badge-miss">🚨 ขาด ${st.missing}</span>`
-      }</td>`;
+      <td><span class="qty-pill ${isOk?'qty-ok':'qty-critical'}">${d.current}</span></td>
+      <td><span class="${shortage===0?'shortage-zero shortage-pill':'shortage-pill'}">${shortage===0?'✓ 0':'-'+shortage}</span></td>
+      <td>
+        <div class="tbl-adj">
+          <button class="tbl-adj-btn" onclick="adjQty('${d.id}',-1,this)">−</button>
+          <input type="number" class="tbl-adj-val" id="adj_${d.id}" value="1" min="1" max="99">
+          <button class="tbl-adj-btn" onclick="adjQty('${d.id}',1,this)">+</button>
+          <button class="btn-add-tbl" onclick="saveAdj('${d.id}')">บันทึก</button>
+        </div>
+      </td>`;
     tbody.appendChild(tr);
   });
 }
 
 function renderAll(){ renderTable(); updateStats(); }
+
+// ข้อ 3: กด +/- แล้วบันทึก
+function adjQty(id, delta, btn){
+  const inp=document.getElementById('adj_'+id);
+  let v=parseInt(inp.value)||1;
+  v=Math.max(1,v+(delta===1?0:0)); // แค่ปรับค่าใน input
+  // ถ้ากด + บวกค่าปัจจุบัน
+  inp.value=Math.max(1,parseInt(inp.value)||1);
+}
+
+function saveAdj(id){
+  const eq=EQUIPMENT.find(d=>d.id===id);
+  if(!eq) return;
+  const inp=document.getElementById('adj_'+id);
+  const qty=parseInt(inp.value)||1;
+  const oldCurrent=eq.current;
+
+  // ถ้าค่าในช่อง input คือจำนวนที่จะเพิ่ม
+  // คิดว่า input เป็น "เพิ่มเข้า" เสมอ
+  eq.current=Math.min(eq.current+qty, eq.std*3);
+  saveStock();
+  const now=new Date();
+  sendToSheet([{
+    type:'ADD_STOCK',
+    date:now.toISOString().split('T')[0],
+    shift:'-', nurse:'เพิ่มสต๊อก',
+    itemName:eq.name, category:eq.category,
+    standard:eq.std, counted:eq.current,
+    shortage:Math.max(0,eq.std-eq.current),
+    status:eq.current>=eq.std?'ครบ':'ขาด',
+    note:`เพิ่ม ${qty} ชิ้น (จาก ${oldCurrent} → ${eq.current})`
+  }]);
+  renderAll();
+  // ถ้าเติมจนครบและมี overlay → clear status
+  const allMissing=EQUIPMENT.filter(d=>d.current<d.std);
+  if(allMissing.length===0 && lastKnownStatus==='PENDING'){
+    clearSheetPending();
+    lastKnownStatus='CLEARED';
+    document.getElementById('missingOverlay').classList.add('hidden');
+    document.body.style.overflow='';
+    showToast('✅ อุปกรณ์ครบทุกรายการ — ระบบปลดล็อกแล้ว','success');
+  } else {
+    showToast(`✅ เพิ่มสต๊อก ${eq.name} +${qty}`,'success');
+  }
+  inp.value=1;
+}
 
 // Tabs & Shifts
 function switchTab(id,btn){
@@ -622,11 +636,11 @@ function setShift(s,btn){
 function openModal(id){ document.getElementById(id).classList.remove('hidden'); }
 function closeModal(id){
   document.getElementById(id).classList.add('hidden');
-  if(id==='checkModal'){checkStep=1; document.getElementById('checkNurse').value=''; document.getElementById('equipCountForm').innerHTML='';}
+  if(id==='checkModal'){checkStep=1;document.getElementById('checkNurse').value='';document.getElementById('equipCountForm').innerHTML='';}
 }
 
 // ================================================================
-// ข้อ 5: Check modal — วันที่ เวร ชื่อ เท่านั้น
+// ข้อ 1: Check modal — ไม่ overlay, เห็นยอดขาดทันที, บันทึกได้เลย
 // ================================================================
 function openCheckModal(){
   const now=new Date();
@@ -640,8 +654,29 @@ function openCheckModal(){
   document.getElementById('checkNextBtn').style.display='';
   document.getElementById('checkNextBtn').textContent='ถัดไป →';
   document.getElementById('checkModalTitle').textContent='✏️ บันทึกการตรวจรถ Emergency';
-  document.getElementById('checkModalFooter').style.display='';
   openModal('checkModal');
+}
+
+function updateCheckSummary(){
+  const inputs=document.querySelectorAll('#equipCountForm input[data-id]');
+  let ok=0,miss=0;
+  inputs.forEach(inp=>{
+    const id=inp.getAttribute('data-id');
+    const val=parseInt(inp.value)||0;
+    const eq=EQUIPMENT.find(d=>d.id===id);
+    if(!eq) return;
+    const shortage=Math.max(0,eq.std-val);
+    // อัปเดต label ขาด
+    const lbl=document.getElementById('lbl_'+id);
+    if(lbl){
+      lbl.textContent=shortage>0?`ขาด ${shortage}`:'ครบ';
+      lbl.className='shortage-label '+(shortage>0?'miss':'ok');
+    }
+    if(val>=eq.std) ok++; else miss++;
+  });
+  document.getElementById('sumTotal').textContent=EQUIPMENT.length;
+  document.getElementById('sumOk').textContent=ok;
+  document.getElementById('sumMiss').textContent=miss;
 }
 
 function checkNext(){
@@ -651,18 +686,21 @@ function checkNext(){
     const form=document.getElementById('equipCountForm');
     form.innerHTML='';
     EQUIPMENT.forEach(d=>{
+      const shortage=Math.max(0,d.std-d.current);
       const div=document.createElement('div');
-      div.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap';
+      div.className='check-drug-row';
       div.innerHTML=`
-        <div style="flex:1;min-width:150px">
-          <div style="font-size:13px;font-weight:500">${d.name}</div>
-          <div style="font-size:11px;color:var(--gray-400)">มาตรฐาน: ${d.std} | ปัจจุบัน: ${d.current}</div>
+        <div class="check-drug-info">
+          <div class="check-drug-name">${d.name}</div>
+          <div class="check-drug-sub">มาตรฐาน ${d.std} | ปัจจุบัน ${d.current}</div>
         </div>
         <input type="number" min="0" value="${d.current}" data-id="${d.id}"
-          style="width:80px;padding:8px;border-radius:8px;border:1.5px solid var(--gray-200);font-size:15px;text-align:center;font-family:Sarabun,sans-serif;background:var(--gray-50);color:var(--gray-800)"
-          oninput="highlightInput(this,${d.std})">`;
+          class="check-drug-input"
+          oninput="updateCheckSummary()">
+        <span class="shortage-label ${shortage>0?'miss':'ok'}" id="lbl_${d.id}">${shortage>0?'ขาด '+shortage:'ครบ'}</span>`;
       form.appendChild(div);
     });
+    updateCheckSummary();
     checkStep=2;
     document.getElementById('checkStep1').style.display='none';
     document.getElementById('checkStep2').style.display='';
@@ -673,18 +711,12 @@ function checkNext(){
   }
 }
 
-function highlightInput(inp,std){
-  const v=parseInt(inp.value)||0;
-  inp.style.borderColor=v<std?'var(--red)':'var(--green)';
-}
-
 function saveCheckRecord(){
   const date=document.getElementById('checkDate').value;
   const shift=document.getElementById('checkShift').value;
   const nurse=document.getElementById('checkNurse').value.trim();
   const inputs=document.querySelectorAll('#equipCountForm input[data-id]');
-  let ok=0, missing=[];
-  const sheetRows=[];
+  let ok=0; const missing=[]; const sheetRows=[];
 
   inputs.forEach(inp=>{
     const id=inp.getAttribute('data-id');
@@ -692,36 +724,39 @@ function saveCheckRecord(){
     const eq=EQUIPMENT.find(d=>d.id===id);
     if(eq){
       eq.current=val;
+      const shortage=Math.max(0,eq.std-val);
       const status=val>=eq.std?'ครบ':'ขาด';
-      if(val>=eq.std) ok++;
-      else missing.push({...eq,counted:val});
+      if(val>=eq.std) ok++; else missing.push({...eq,counted:val,shortage});
       sheetRows.push({type:'CHECK',date,shift,nurse,
         itemName:eq.name,category:eq.category,
-        standard:eq.std,counted:val,
-        shortage:Math.max(0,eq.std-val),
-        status,note:''});
+        standard:eq.std,counted:val,shortage,status,note:''});
     }
   });
 
   saveStock();
   sendToSheet(sheetRows);
-
   const hist=loadHistory();
   hist.unshift({date,shift,nurse,ok,missing:missing.length,timestamp:Date.now()});
   saveHistory(hist);
   renderAll(); renderHistory();
 
   if(missing.length>0){
-    // บันทึกสถานะ PENDING ลง Google Sheet → ทุกเครื่องรับรู้
+    // บันทึก PENDING ลง Sheet → ทุกเครื่องรับรู้
     setSheetPending(missing);
     lastKnownStatus='PENDING';
-    showMissingAlert(missing);
-    closeModal('checkModal');
-    showToast(`🚨 พบอุปกรณ์ขาด ${missing.length} รายการ`,'warning');
+    checkStep=3;
+    document.getElementById('checkStep2').style.display='none';
+    document.getElementById('checkStep3').style.display='';
+    document.getElementById('checkNextBtn').style.display='none';
+    document.getElementById('successDetail').innerHTML=
+      `วันที่ ${date} เวร ${shift} | บันทึกโดย ${nurse}<br>
+       ✅ ครบ ${ok} รายการ &nbsp;|&nbsp; <span style="color:var(--red)">⚠️ ขาด ${missing.length} รายการ</span><br>
+       <small style="color:var(--gray-600)">ระบบแจ้งเตือนทุกเครื่องแล้ว กรุณาเติมให้ครบ</small>`;
+    showToast(`⚠️ พบอุปกรณ์ขาด ${missing.length} รายการ — แจ้งเตือนทุกเครื่องแล้ว`,'warning');
+    // แสดง overlay หลังปิด modal
+    setTimeout(()=>{ closeModal('checkModal'); showMissingOverlay(missing); },1500);
   } else {
-    // อัปเดต Sheet เป็น CLEARED
-    clearSheetPending();
-    lastKnownStatus='CLEARED';
+    setSheetPending([]); clearSheetPending(); lastKnownStatus='CLEARED';
     checkStep=3;
     document.getElementById('checkStep2').style.display='none';
     document.getElementById('checkStep3').style.display='';
@@ -734,39 +769,40 @@ function saveCheckRecord(){
 }
 
 // ================================================================
-// ข้อ 4: Missing Alert — ไม่มีปุ่มยกเลิก, คงอยู่จนกดยืนยัน
+// OVERLAY — sync ทุกเครื่อง (เมื่อดึงสถานะ PENDING จาก Sheet)
 // ================================================================
-function showMissingAlert(missing){
+function showMissingOverlay(missing){
   const body=document.getElementById('missingAlertBody');
   body.innerHTML='';
   document.getElementById('missingCountBadge').textContent=`⚠️ พบ ${missing.length} รายการที่ขาด`;
   missing.forEach(d=>{
     const have=d.counted!==undefined?d.counted:d.current;
+    const shortage=d.shortage!==undefined?d.shortage:Math.max(0,d.std-have);
     const div=document.createElement('div');
-    div.className='missing-drug-item'; div.setAttribute('data-id',d.id);
+    div.className='missing-drug-item-overlay'; div.setAttribute('data-id',d.id);
     div.innerHTML=`
-      <div class="missing-drug-info">
-        <div class="missing-drug-name">🚨 ${d.name}</div>
-        <div class="missing-drug-detail">มีอยู่ ${have} ชิ้น | ขาด ${d.std-have} ชิ้น | มาตรฐาน ${d.std} ชิ้น</div>
+      <div style="flex:1">
+        <div class="missing-drug-name-ov">🚨 ${d.name}</div>
+        <div class="missing-drug-detail-ov">มีอยู่ ${have} ชิ้น | ขาด ${shortage} ชิ้น | มาตรฐาน ${d.std} ชิ้น</div>
       </div>
-      <div class="missing-input-row">
-        <span class="missing-input-label">เติมเพิ่ม:</span>
-        <input type="number" class="missing-input" data-id="${d.id}" min="0" value="${d.std-have}">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:12px;color:#666">เติมเพิ่ม:</span>
+        <input type="number" class="missing-input-ov" data-id="${d.id}" min="0" value="${shortage}">
       </div>`;
     body.appendChild(div);
   });
-  // แสดง fullscreen overlay + ล็อก scroll
   document.getElementById('missingOverlay').classList.remove('hidden');
   document.body.style.overflow='hidden';
 }
 
-function confirmRestock(){
+function confirmRestockOverlay(){
   const now=new Date();
   const date=now.toISOString().split('T')[0];
   const inputs=document.querySelectorAll('#missingAlertBody input[data-id]');
   const sheetRows=[];
   inputs.forEach(inp=>{
-    const id=inp.getAttribute('data-id'), add=parseInt(inp.value)||0;
+    const id=inp.getAttribute('data-id');
+    const add=parseInt(inp.value)||0;
     const eq=EQUIPMENT.find(d=>d.id===id);
     if(eq&&add>0){
       eq.current=Math.min(eq.current+add,eq.std);
@@ -778,28 +814,41 @@ function confirmRestock(){
   });
   sendToSheet(sheetRows);
   saveStock();
-
-  // บันทึกประวัติการเติมลง localStorage
-  if(sheetRows.length>0){
-    const now2=new Date();
-    const restHist=loadRestockHistory();
-    restHist.unshift({
-      date: sheetRows[0].date,
-      time: now2.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}),
-      items: sheetRows.map(r=>({name:r.itemName, added: parseInt((r.note||'').replace(/\D/g,''))||0, total:r.counted})),
-      timestamp: Date.now()
-    });
-    saveRestockHistory(restHist);
-    renderRestockHistory();
-  }
-
-  // อัปเดต Google Sheet เป็น CLEARED → ทุกเครื่องปลดล็อก
   clearSheetPending();
   lastKnownStatus='CLEARED';
   document.getElementById('missingOverlay').classList.add('hidden');
   document.body.style.overflow='';
   renderAll();
   showToast('✅ ยืนยันเติมสต๊อกครบ — ปลดล็อกทุกเครื่องแล้ว','success');
+}
+
+// ================================================================
+// Polling — ดึงสถานะจาก Sheet ทุก 30 วินาที
+// ================================================================
+function startPolling(){
+  if(pollInterval) clearInterval(pollInterval);
+  pollInterval=setInterval(async()=>{
+    const data=await fetchSheetStatus();
+    if(!data) return;
+    if(data.status==='PENDING' && lastKnownStatus!=='PENDING'){
+      lastKnownStatus='PENDING';
+      if(data.items&&data.items.length>0){
+        data.items.forEach(item=>{
+          const eq=EQUIPMENT.find(d=>d.id===item.id);
+          if(eq) eq.current=item.current!==undefined?item.current:0;
+        });
+        saveStock(); renderAll();
+        showMissingOverlay(data.items);
+        showToast(`🚨 มีอุปกรณ์ขาดสต๊อก ${data.items.length} รายการ`,'warning');
+      }
+    } else if(data.status==='CLEARED' && lastKnownStatus==='PENDING'){
+      lastKnownStatus='CLEARED';
+      document.getElementById('missingOverlay').classList.add('hidden');
+      document.body.style.overflow='';
+      renderAll();
+      showToast('✅ สต๊อกได้รับการเติมครบแล้ว','success');
+    }
+  },30000);
 }
 
 // History
@@ -813,40 +862,14 @@ function renderHistory(){
   list.innerHTML=hist.map(h=>`
     <div class="history-item">
       <div>
-        <div style="font-size:13px;font-weight:700;color:var(--primary)">${h.date}</div>
-        <div style="font-size:12px;color:var(--gray-400)">เวร ${h.shift}</div>
+        <div style="font-size:12px;font-weight:700;color:var(--primary)">${h.date}</div>
+        <div style="font-size:11px;color:var(--gray-400)">เวร ${h.shift}</div>
       </div>
       <div class="history-info">
         <div class="history-nurse">👩‍⚕️ ${h.nurse}</div>
         <div class="history-detail">ครบ ${h.ok} | ${h.missing>0?`⚠️ ขาด ${h.missing} รายการ`:'✅ ครบทุกรายการ'}</div>
       </div>
       <div><span class="badge ${h.missing>0?'badge-red':'badge-green'}">${h.missing>0?'⚠️ มีขาด':'✅ ครบ'}</span></div>
-    </div>`).join('');
-}
-
-function renderRestockHistory(){
-  const list=document.getElementById('restockList');
-  const hist=loadRestockHistory();
-  if(!hist.length){
-    list.innerHTML=`<div class="empty-state"><div class="empty-icon">📦</div><div>ยังไม่มีการเติมสต๊อก</div></div>`;
-    return;
-  }
-  list.innerHTML=hist.map(h=>`
-    <div class="restock-item">
-      <div>
-        <div class="restock-date">📦 ${h.date}</div>
-        <div class="restock-by">${h.time||''}</div>
-      </div>
-      <div class="restock-info">
-        <div class="restock-items-list">
-          ${h.items.map(it=>`
-            <div class="restock-drug-row">
-              <span class="restock-drug-name">✅ ${it.name}</span>
-              <span class="restock-drug-qty">+${it.added} ชิ้น → รวม ${it.total}</span>
-            </div>`).join('')}
-        </div>
-      </div>
-      <div><span class="restock-badge">เติมสต๊อก</span></div>
     </div>`).join('');
 }
 
@@ -863,26 +886,19 @@ function showToast(msg,type=''){
 applyStock();
 renderAll();
 renderHistory();
-renderRestockHistory();
 
-// ดึงสถานะจาก Google Sheet ทันทีเมื่อเปิดหน้า
-(async ()=>{
-  showToast('⏳ กำลังตรวจสอบสถานะสต๊อก...','');
-  const data = await fetchSheetStatus();
-  if(data && data.status==='PENDING' && data.items && data.items.length>0){
+(async()=>{
+  const data=await fetchSheetStatus();
+  if(data&&data.status==='PENDING'&&data.items&&data.items.length>0){
     lastKnownStatus='PENDING';
-    // sync stock จาก sheet ก่อนแสดง
     data.items.forEach(item=>{
       const eq=EQUIPMENT.find(d=>d.id===item.id);
-      if(eq){ eq.current=item.current!==undefined?item.current:0; }
+      if(eq) eq.current=item.current!==undefined?item.current:0;
     });
     saveStock(); renderAll();
-    showMissingAlert(data.items);
+    showMissingOverlay(data.items);
     showToast(`🚨 มีอุปกรณ์ขาดสต๊อก ${data.items.length} รายการ รอเติม`,'warning');
-  } else {
-    lastKnownStatus='CLEARED';
   }
-  // เริ่ม polling ทุก 30 วินาที
   startPolling();
 })();
 </script>
